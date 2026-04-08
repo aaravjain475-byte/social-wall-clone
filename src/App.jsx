@@ -155,9 +155,9 @@ const PostModal = ({ post, onClose }) => {
         </svg>
       </button>
 
-      {/* Reel Modal - Much larger size */}
+      {/* Reel Modal - Same size as large reel tile */}
       {isReel ? (
-        <div className="flex h-screen bg-black">
+        <div className="h-screen bg-black flex">
           {/* Left Side - Video */}
           <div className="flex-1 h-full bg-black flex items-center justify-center">
             {videoError ? (
