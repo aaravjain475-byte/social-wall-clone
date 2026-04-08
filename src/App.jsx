@@ -141,6 +141,7 @@ function App() {
 // Post Modal Component
 const PostModal = ({ post, onClose }) => {
   const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video');
+  const [videoError, setVideoError] = useState(false);
 
   return (
     <div className="relative">
@@ -177,16 +178,27 @@ const PostModal = ({ post, onClose }) => {
         {/* Reel Display - Actual Video */}
         {isReel ? (
           <div className="mb-4 relative w-full">
-            <video
-              src={post.image}
-              alt="Instagram Reel"
-              className="w-full h-auto max-h-[70vh] rounded-lg"
-              autoPlay
-              loop
-              muted
-              playsInline
-              controls
-            />
+            {videoError ? (
+              <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <p className="text-gray-600 mb-2">⚠️ Video unavailable</p>
+                  <p className="text-sm text-gray-500">Reel could not be loaded</p>
+                  <p className="text-xs text-gray-400 mt-2">URL: {post.image}</p>
+                </div>
+              </div>
+            ) : (
+              <video
+                src={post.image}
+                alt="Instagram Reel"
+                className="w-full h-auto max-h-[70vh] rounded-lg"
+                autoPlay
+                loop
+                muted
+                playsInline
+                controls
+                onError={() => setVideoError(true)}
+              />
+            )}
           </div>
         ) : (
           /* Regular Post Image */
