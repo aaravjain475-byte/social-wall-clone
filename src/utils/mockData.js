@@ -96,7 +96,22 @@ const generateRandomPost = (index) => {
 
 export const generateMockPosts = (count = 20, startIndex = 0) => {
   const posts = [];
-  for (let i = 0; i < count; i++) {
+  
+  // Add specific Instagram reel first
+  posts.push({
+    id: uuidv4(),
+    username: "instagram_user",
+    platform: "Instagram",
+    content: "Morning routine vibes! ✨ Starting the day right with coffee and positivity. What's your morning ritual? #morningroutine #coffeelover #dailyvibes",
+    image: "https://www.instagram.com/reels/DVfLu0lgKof/",
+    timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+    likes: Math.floor(Math.random() * 1000),
+    comments: Math.floor(Math.random() * 100),
+    shares: Math.floor(Math.random() * 50)
+  });
+
+  // Add remaining posts
+  for (let i = 1; i < count; i++) {
     posts.push(generateRandomPost(startIndex + i));
   }
   return posts;
