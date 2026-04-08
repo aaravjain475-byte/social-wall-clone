@@ -155,9 +155,9 @@ const PostModal = ({ post, onClose }) => {
         </svg>
       </button>
 
-      {/* Reel Modal - Same size as reel tile */}
+      {/* Reel Modal - Much larger size */}
       {isReel ? (
-        <div className="flex h-96 bg-black">
+        <div className="flex h-screen bg-black">
           {/* Left Side - Video */}
           <div className="flex-1 h-full bg-black flex items-center justify-center">
             {videoError ? (
@@ -196,7 +196,7 @@ const PostModal = ({ post, onClose }) => {
               </div>
             </div>
 
-            {/* Caption Content - No scroll */}
+            {/* Caption Content */}
             <div className="text-gray-800 leading-relaxed flex-1">
               <p className="text-lg">{post.content}</p>
             </div>

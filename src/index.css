@@ -46,6 +46,8 @@
     margin: 0;
     padding: 0;
     border-spacing: 0;
+    grid-column: span 2;
+    grid-row: span 3;
   }
   
   .masonry-item.reel-tile {
@@ -53,8 +55,8 @@
     margin: 0;
     padding: 0;
     border-spacing: 0;
-    grid-column: span 2;
-    grid-row: span 2;
+    grid-column: span 3;
+    grid-row: span 4;
   }
   
   .social-header {
