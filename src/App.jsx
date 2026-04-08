@@ -149,11 +149,26 @@ const PostModal = ({ post, onClose }) => {
         audioRef.current.pause();
         setIsAudioPlaying(false);
       } else {
-        audioRef.current.play().then(() => {
-          setIsAudioPlaying(true);
-        }).catch(error => {
-          console.error('Audio play failed:', error);
-        });
+        // Create a simple beep sound using Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.value = 800; // 800Hz beep
+        oscillator.type = 'sine';
+        gainNode.gain.value = 0.1; // Low volume
+        
+        oscillator.start();
+        setIsAudioPlaying(true);
+        
+        // Stop after 1 second
+        setTimeout(() => {
+          oscillator.stop();
+          setIsAudioPlaying(false);
+        }, 1000);
       }
     }
   };
@@ -225,16 +240,6 @@ const PostModal = ({ post, onClose }) => {
               {isAudioPlaying ? 'Playing...' : 'Audio'}
             </span>
           </div>
-        )}
-
-        {/* Hidden Audio Element */}
-        {isReel && (
-          <audio
-            ref={audioRef}
-            src={`https://www.soundjay.com/misc/sounds/bell-ringing-05.wav`}
-            onEnded={() => setIsAudioPlaying(false)}
-            onError={(e) => console.error('Audio error:', e)}
-          />
         )}
       </div>
     </div>
