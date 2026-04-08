@@ -147,10 +147,14 @@ const PostModal = ({ post, onClose }) => {
     if (audioRef.current) {
       if (isAudioPlaying) {
         audioRef.current.pause();
+        setIsAudioPlaying(false);
       } else {
-        audioRef.current.play();
+        audioRef.current.play().then(() => {
+          setIsAudioPlaying(true);
+        }).catch(error => {
+          console.error('Audio play failed:', error);
+        });
       }
-      setIsAudioPlaying(!isAudioPlaying);
     }
   };
 
@@ -199,31 +203,26 @@ const PostModal = ({ post, onClose }) => {
           </div>
         )}
 
-        {/* Audio Button for Reels */}
+        {/* Audio Button for Reels - Small Icon Button */}
         {isReel && (
-          <div className="mb-4 flex items-center space-x-3">
+          <div className="mb-4 flex items-center">
             <button
               onClick={toggleAudio}
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+              className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+              title={isAudioPlaying ? "Pause Audio" : "Play Audio"}
             >
               {isAudioPlaying ? (
-                <>
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                  </svg>
-                  <span>Pause Audio</span>
-                </>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
               ) : (
-                <>
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z"/>
-                  </svg>
-                  <span>Play Audio</span>
-                </>
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
               )}
             </button>
-            <span className="text-sm text-gray-500">
-              {isAudioPlaying ? 'Playing audio for this reel...' : 'Click to play audio for this reel'}
+            <span className="ml-2 text-sm text-gray-500">
+              {isAudioPlaying ? 'Playing...' : 'Audio'}
             </span>
           </div>
         )}
@@ -234,6 +233,7 @@ const PostModal = ({ post, onClose }) => {
             ref={audioRef}
             src={`https://www.soundjay.com/misc/sounds/bell-ringing-05.wav`}
             onEnded={() => setIsAudioPlaying(false)}
+            onError={(e) => console.error('Audio error:', e)}
           />
         )}
       </div>
