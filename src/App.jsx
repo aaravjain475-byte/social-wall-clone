@@ -174,22 +174,19 @@ const PostModal = ({ post, onClose }) => {
           <p className="text-gray-800 leading-relaxed text-lg">{post.content}</p>
         </div>
 
-        {/* Reel Display - Full Size */}
+        {/* Reel Display - Actual Video */}
         {isReel ? (
           <div className="mb-4 relative w-full">
-            <img
+            <video
               src={post.image}
               alt="Instagram Reel"
-              className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
+              className="w-full h-auto max-h-[70vh] rounded-lg"
+              autoPlay
+              loop
+              muted
+              playsInline
+              controls
             />
-            {/* Reel Indicator Overlay */}
-            <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-              REEL
-            </div>
-            {/* Import Indicator */}
-            <div className="absolute bottom-4 left-4 bg-black bg-opacity-75 text-white px-3 py-1 rounded text-sm">
-              Imported from Instagram
-            </div>
           </div>
         ) : (
           /* Regular Post Image */
