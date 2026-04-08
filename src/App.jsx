@@ -140,23 +140,6 @@ function App() {
 
 // Post Modal Component
 const PostModal = ({ post, onClose }) => {
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const audioRef = useRef(null);
-
-  const toggleAudio = () => {
-    if (audioRef.current) {
-      if (isAudioPlaying) {
-        audioRef.current.pause();
-        setIsAudioPlaying(false);
-      } else {
-        audioRef.current.play().catch(error => {
-          console.error('Audio play failed:', error);
-        });
-        setIsAudioPlaying(true);
-      }
-    }
-  };
-
   const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video');
 
   return (
@@ -191,48 +174,34 @@ const PostModal = ({ post, onClose }) => {
           <p className="text-gray-800 leading-relaxed text-lg">{post.content}</p>
         </div>
 
-        {/* Image */}
-        {post.image && (
-          <div className="mb-4">
+        {/* Reel Display - Static Image */}
+        {isReel ? (
+          <div className="mb-4 relative">
             <img
               src={post.image}
-              alt="Post image"
+              alt="Instagram Reel"
               className="w-full rounded-lg object-cover"
             />
+            {/* Reel Indicator Overlay */}
+            <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded-full text-xs font-semibold">
+              REEL
+            </div>
+            {/* Import Indicator */}
+            <div className="absolute bottom-2 left-2 bg-black bg-opacity-75 text-white px-2 py-1 rounded text-xs">
+              Imported from Instagram
+            </div>
           </div>
-        )}
-
-        {/* Audio Controls - Only for Reels */}
-        {isReel && (
-          <div className="mb-4 flex items-center">
-            <button
-              onClick={toggleAudio}
-              className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
-              title={isAudioPlaying ? "Pause Audio" : "Play Audio"}
-            >
-              {isAudioPlaying ? (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                </svg>
-              ) : (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              )}
-            </button>
-            <span className="ml-2 text-sm text-gray-500">
-              {isAudioPlaying ? 'Playing...' : 'Audio'}
-            </span>
-          </div>
-        )}
-
-        {/* Hidden Audio Element - Only for Reels */}
-        {isReel && (
-          <audio
-            ref={audioRef}
-            src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAAAACkCAIAAAAFUAAAAIAAAEAAsAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQaaaa"
-            onEnded={() => setIsAudioPlaying(false)}
-          />
+        ) : (
+          /* Regular Post Image */
+          post.image && (
+            <div className="mb-4">
+              <img
+                src={post.image}
+                alt="Post image"
+                className="w-full rounded-lg object-cover"
+              />
+            </div>
+          )
         )}
       </div>
     </div>
