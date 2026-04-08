@@ -10,7 +10,27 @@ const sampleTexts = [
   "Just completed a marathon! The feeling of accomplishment is incredible. #fitness #achievement",
   "New blog post is live! Sharing my thoughts on the future of technology. #blog #tech",
   "Beautiful weather for outdoor activities. Making the most of this amazing day! #outdoors #active",
-  "Grateful for all the support from our community. You guys are amazing! #gratitude #community"
+  "Grateful for all the support from our community. You guys are amazing! #gratitude #community",
+  "Just launched our new product! 🚀 So excited to share this with everyone. The response has been incredible!",
+  "Beautiful sunset from my office window today. Sometimes it's the little things that make the day special.",
+  "Working on something big... 🤫 Can't wait to show you all what we've been building. Stay tuned!",
+  "Coffee and code - the perfect combination for a productive Sunday morning ☕💻",
+  "Just hit our 10k follower milestone! Thank you all for the amazing support and engagement!",
+  "New reel alert! 🎬 Check out this amazing transition I discovered. What do you think?",
+  "Behind the scenes of our latest photoshoot. The team worked so hard on this one! 📸",
+  "Video content is changing the game! Here's my latest reel showing my morning routine.",
+  "Quick tutorial on how I edit my photos. Let me know if you want more content like this!",
+  "Reel time! ✨ Watch till the end for the surprise. This took me forever to perfect!",
+  "Weekend vibes with the team. Great people make great products! 🎉",
+  "Just shipped a major update to our app. Your feedback made this possible! 🙏",
+  "New reel dropping tomorrow! Here's a sneak peek of what's coming. Get ready! 🎥",
+  "Sometimes the best ideas come at 3 AM. This is one of those times! 🌙",
+  "Video editing tips that nobody talks about. This reel changed my workflow completely!",
+  "Grateful for this community. Your comments and messages mean the world to me! ❤️",
+  "Watch this reel to see how I create content from scratch. Process is everything! 🎬",
+  "New feature alert! We've been working on this for months and it's finally live!",
+  "Reel showing my workspace setup. Every detail has a purpose! 📱💻",
+  "Thank you for 100k views on my last reel! Here's what I learned from it..."
 ];
 
 const sampleUsernames = [

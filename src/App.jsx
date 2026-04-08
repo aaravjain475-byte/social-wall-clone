@@ -141,6 +141,22 @@ function App() {
 
 // Post Modal Component
 const PostModal = ({ post, onClose }) => {
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const toggleAudio = () => {
+    if (audioRef.current) {
+      if (isAudioPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsAudioPlaying(!isAudioPlaying);
+    }
+  };
+
+  const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video');
+
   return (
     <div className="relative">
       {/* Close Button */}
@@ -170,7 +186,7 @@ const PostModal = ({ post, onClose }) => {
 
         {/* Content */}
         <div className="mb-4">
-          <p className="text-gray-800 leading-relaxed">{post.content}</p>
+          <p className="text-gray-800 leading-relaxed text-lg">{post.content}</p>
         </div>
 
         {/* Image */}
@@ -184,29 +200,43 @@ const PostModal = ({ post, onClose }) => {
           </div>
         )}
 
-        {/* Engagement */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-              {post.likes}
-            </span>
-            <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-              {post.comments}
-            </span>
-            <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.032 4.026a9.001 9.001 0 01-7.432 0m9.032-4.026A9.001 9.001 0 0112 3c-4.474 0-8.268 3.12-9.032 7.326m0 0A9.001 9.001 0 0012 21c4.474 0 8.268-3.12 9.032-7.326" />
-              </svg>
-              {post.shares}
+        {/* Audio Button for Reels */}
+        {isReel && (
+          <div className="mb-4 flex items-center space-x-3">
+            <button
+              onClick={toggleAudio}
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+            >
+              {isAudioPlaying ? (
+                <>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                  </svg>
+                  <span>Pause Audio</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                  <span>Play Audio</span>
+                </>
+              )}
+            </button>
+            <span className="text-sm text-gray-500">
+              {isAudioPlaying ? 'Playing audio for this reel...' : 'Click to play audio for this reel'}
             </span>
           </div>
-        </div>
+        )}
+
+        {/* Hidden Audio Element */}
+        {isReel && (
+          <audio
+            ref={audioRef}
+            src={`https://www.soundjay.com/misc/sounds/bell-ringing-05.wav`}
+            onEnded={() => setIsAudioPlaying(false)}
+          />
+        )}
       </div>
     </div>
   );
