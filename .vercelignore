@@ -1,0 +1,4 @@
+# Vercel ignore file to force fresh deployment
+README.md
+*.md
+.git
