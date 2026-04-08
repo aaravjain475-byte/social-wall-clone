@@ -175,27 +175,27 @@ const PostModal = ({ post, onClose }) => {
           <p className="text-gray-800 leading-relaxed text-lg">{post.content}</p>
         </div>
 
-        {/* Reel Display - Actual Video */}
+        {/* Reel Display - Instagram iframe */}
         {isReel ? (
           <div className="mb-4 relative w-full">
             {videoError ? (
               <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
                 <div className="text-center">
-                  <p className="text-gray-600 mb-2">⚠️ Video unavailable</p>
-                  <p className="text-sm text-gray-500">Reel could not be loaded</p>
+                  <p className="text-gray-600 mb-2">⚠️ Instagram embed blocked</p>
+                  <p className="text-sm text-gray-500">Instagram reels cannot be embedded directly</p>
                   <p className="text-xs text-gray-400 mt-2">URL: {post.image}</p>
                 </div>
               </div>
             ) : (
-              <video
+              <iframe
                 src={post.image}
-                alt="Instagram Reel"
                 className="w-full h-auto max-h-[70vh] rounded-lg"
-                autoPlay
-                loop
-                muted
-                playsInline
-                controls
+                height="560"
+                width="315"
+                frameBorder="0"
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                title="Instagram Reel"
                 onError={() => setVideoError(true)}
               />
             )}
