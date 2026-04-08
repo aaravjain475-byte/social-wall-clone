@@ -4,6 +4,7 @@ export const useAutoScroll = (enabled = true, speed = 1) => {
   const containerRef = useRef(null);
   const animationRef = useRef(null);
   const scrollPositionRef = useRef(0);
+  const lastTimeRef = useRef(0);
 
   useEffect(() => {
     if (!enabled || !containerRef.current) return;
@@ -11,10 +12,15 @@ export const useAutoScroll = (enabled = true, speed = 1) => {
     const container = containerRef.current;
     let scrollSpeed = speed;
 
-    const animate = () => {
+    const animate = (currentTime) => {
       if (!container) return;
 
-      scrollPositionRef.current += scrollSpeed;
+      // Calculate delta time for smooth scrolling
+      const deltaTime = currentTime - lastTimeRef.current;
+      lastTimeRef.current = currentTime;
+
+      // Smooth scrolling based on delta time
+      scrollPositionRef.current += scrollSpeed * (deltaTime / 16); // Normalize to 60fps
 
       // Reset to top when reaching bottom
       if (scrollPositionRef.current >= container.scrollHeight - container.clientHeight) {
@@ -26,6 +32,7 @@ export const useAutoScroll = (enabled = true, speed = 1) => {
     };
 
     // Start animation
+    lastTimeRef.current = performance.now();
     animationRef.current = requestAnimationFrame(animate);
 
     // Cleanup
@@ -44,10 +51,14 @@ export const useAutoScroll = (enabled = true, speed = 1) => {
 
   const handleMouseLeave = () => {
     if (enabled && containerRef.current) {
-      const animate = () => {
+      lastTimeRef.current = performance.now();
+      const animate = (currentTime) => {
         if (!containerRef.current) return;
 
-        scrollPositionRef.current += scrollSpeed;
+        const deltaTime = currentTime - lastTimeRef.current;
+        lastTimeRef.current = currentTime;
+
+        scrollPositionRef.current += speed * (deltaTime / 16);
 
         if (scrollPositionRef.current >= containerRef.current.scrollHeight - containerRef.current.clientHeight) {
           scrollPositionRef.current = 0;

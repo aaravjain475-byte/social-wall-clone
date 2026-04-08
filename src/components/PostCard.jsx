@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 
-const PostCard = ({ post, layout = 'masonry' }) => {
+const PostCard = ({ post, layout = 'masonry', onClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -72,11 +72,12 @@ const PostCard = ({ post, layout = 'masonry' }) => {
 
   return (
     <motion.div
-      className={cardClasses[layout]}
+      className={`${cardClasses[layout]} cursor-pointer`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -5 }}
+      onClick={onClick}
     >
       {/* Header */}
       <div className={`${layout === 'list' ? 'flex-1' : ''} social-header`}>
