@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .social-card {
+    @apply bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-3xl;
+  }
+  
+  .social-header {
+    @apply flex items-center p-4 border-b border-gray-100;
+  }
+  
+  .social-avatar {
+    @apply w-10 h-10 rounded-full object-cover;
+  }
+  
+  .social-info {
+    @apply ml-3 flex-1;
+  }
+  
+  .social-username {
+    @apply font-semibold text-gray-900 text-sm;
+  }
+  
+  .social-platform {
+    @apply text-xs text-gray-500;
+  }
+  
+  .social-content {
+    @apply p-4;
+  }
+  
+  .social-text {
+    @apply text-gray-800 text-sm leading-relaxed mb-3;
+  }
+  
+  .social-image {
+    @apply w-full rounded-lg object-cover cursor-pointer transition-transform duration-300 hover:scale-105;
+  }
+  
+  .social-footer {
+    @apply flex items-center justify-between p-4 border-t border-gray-100;
+  }
+  
+  .social-stats {
+    @apply flex items-center space-x-4 text-xs text-gray-500;
+  }
+  
+  .social-action {
+    @apply flex items-center space-x-1 text-gray-600 hover:text-red-500 transition-colors duration-200;
+  }
+  
+  .loading-skeleton {
+    @apply animate-pulse bg-gray-200 rounded;
+  }
+  
+  .masonry-grid {
+    column-count: 1;
+    column-gap: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .masonry-grid {
+      column-count: 2;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .masonry-grid {
+      column-count: 3;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .masonry-grid {
+      column-count: 4;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .masonry-grid {
+      column-count: 5;
+    }
+  }
+  
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .backdrop-blur-xs {
+    backdrop-filter: blur(2px);
+  }
+  
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  }
+}

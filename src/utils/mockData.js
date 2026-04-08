@@ -1,0 +1,142 @@
+import { v4 as uuidv4 } from 'uuid';
+
+const sampleTexts = [
+  "Just launched our new product! So excited to share this with everyone. #innovation #tech",
+  "Beautiful sunset today. Sometimes you need to pause and appreciate the little things in life. #sunset #nature",
+  "Working on something amazing! Can't wait to show you all what we've been building. #startup #entrepreneur",
+  "Coffee and code - the perfect combination for a productive morning! #programming #developer",
+  "Amazing team meeting today. Great ideas flowing and exciting projects ahead! #teamwork #success",
+  "Weekend vibes! Time to recharge and get ready for another productive week. #weekend #relax",
+  "Just completed a marathon! The feeling of accomplishment is incredible. #fitness #achievement",
+  "New blog post is live! Sharing my thoughts on the future of technology. #blog #tech",
+  "Beautiful weather for outdoor activities. Making the most of this amazing day! #outdoors #active",
+  "Grateful for all the support from our community. You guys are amazing! #gratitude #community"
+];
+
+const sampleUsernames = [
+  "TechInnovator", "CreativeMind", "BusinessGuru", "DigitalNomad", "StartupFounder",
+  "CodeMaster", "DesignThinker", "DataScientist", "ProductManager", "MarketingExpert",
+  "GrowthHacker", "CloudArchitect", "DevOpsEngineer", "UXDesigner", "ContentCreator",
+  "SocialMediaGuru", "BrandStrategist", "SalesExpert", "CustomerSuccess", "ProductDesigner"
+];
+
+const platformDistribution = {
+  instagram: 0.4,
+  twitter: 0.3,
+  facebook: 0.2,
+  linkedin: 0.1
+};
+
+const getRandomPlatform = () => {
+  const random = Math.random();
+  let cumulative = 0;
+  
+  for (const [platform, probability] of Object.entries(platformDistribution)) {
+    cumulative += probability;
+    if (random <= cumulative) {
+      return platform;
+    }
+  }
+  return 'instagram';
+};
+
+const generateRandomPost = (index) => {
+  const platform = getRandomPlatform();
+  const username = sampleUsernames[Math.floor(Math.random() * sampleUsernames.length)];
+  const content = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
+  const hasImage = Math.random() > 0.3;
+  
+  // Generate different image heights for masonry layout
+  const imageHeights = [200, 250, 300, 350, 400, 450];
+  const imageHeight = imageHeights[Math.floor(Math.random() * imageHeights.length)];
+  
+  // Generate random engagement metrics
+  const likes = Math.floor(Math.random() * 1000) + 10;
+  const comments = Math.floor(Math.random() * 100) + 1;
+  const shares = Math.floor(Math.random() * 50) + 1;
+  
+  // Generate random timestamp within last 24 hours
+  const timestamp = new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000);
+  
+  return {
+    id: uuidv4(),
+    platform,
+    username,
+    content,
+    avatar: `https://picsum.photos/seed/${username}-${index}/100/100.jpg`,
+    image: hasImage ? `https://picsum.photos/seed/post-${index}/400/${imageHeight}.jpg` : null,
+    likes,
+    comments,
+    shares,
+    timestamp: timestamp.toISOString(),
+    imageHeight
+  };
+};
+
+export const generateMockPosts = (count = 20, startIndex = 0) => {
+  const posts = [];
+  for (let i = 0; i < count; i++) {
+    posts.push(generateRandomPost(startIndex + i));
+  }
+  return posts;
+};
+
+export const generateMockUser = (username) => {
+  return {
+    username,
+    avatar: `https://picsum.photos/seed/${username}/100/100.jpg`,
+    verified: Math.random() > 0.7,
+    followers: Math.floor(Math.random() * 100000) + 1000,
+    following: Math.floor(Math.random() * 1000) + 100,
+    posts: Math.floor(Math.random() * 500) + 10
+  };
+};
+
+export const generateMockComments = (postId, count = 5) => {
+  const comments = [];
+  for (let i = 0; i < count; i++) {
+    comments.push({
+      id: uuidv4(),
+      postId,
+      username: sampleUsernames[Math.floor(Math.random() * sampleUsernames.length)],
+      content: sampleTexts[Math.floor(Math.random() * sampleTexts.length)],
+      timestamp: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString(),
+      likes: Math.floor(Math.random() * 50) + 1
+    });
+  }
+  return comments;
+};
+
+export const generateMockAnalytics = () => {
+  return {
+    totalPosts: Math.floor(Math.random() * 1000) + 500,
+    totalEngagement: Math.floor(Math.random() * 10000) + 5000,
+    topPlatforms: [
+      { platform: 'instagram', posts: Math.floor(Math.random() * 400) + 200 },
+      { platform: 'twitter', posts: Math.floor(Math.random() * 300) + 150 },
+      { platform: 'facebook', posts: Math.floor(Math.random() * 200) + 100 },
+      { platform: 'linkedin', posts: Math.floor(Math.random() * 100) + 50 }
+    ],
+    engagementRate: (Math.random() * 5 + 2).toFixed(2),
+    reach: Math.floor(Math.random() * 50000) + 10000,
+    impressions: Math.floor(Math.random() * 100000) + 50000
+  };
+};
+
+// Simulate API delay
+export const simulateApiCall = (data, delay = 1000) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(data);
+    }, delay);
+  });
+};
+
+// Simulate real-time updates
+export const generateRealtimeUpdate = () => {
+  return {
+    type: 'new_post',
+    data: generateRandomPost(Math.floor(Math.random() * 10000)),
+    timestamp: new Date().toISOString()
+  };
+};
