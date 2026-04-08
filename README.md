@@ -1,58 +1,67 @@
 # Social Wall Clone
 
-A pixel-perfect recreation of the Social Walls website with real-time social media feed aggregation, featuring modern React architecture, beautiful animations, and responsive design.
+<div align="center">
+
+![Social Wall Clone](https://img.shields.io/badge/Social_Wall-Clone-blue?style=for-the-badge)
+![React](https://img.shields.io/badge/React-18.2.0-61dafb?style=for-the-badge&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-4.5.0-646cff?style=for-the-badge&logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3.5-06b6d4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-10.16.4-0055ff?style=for-the-badge&logo=framer&logoColor=white)
+
+**A pixel-perfect recreation of Social Walls with real-time social media feed aggregation, featuring modern React architecture, beautiful animations, and responsive design.**
+
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Online-green?style=for-the-badge)](https://your-demo-url.com)
+[![GitHub stars](https://img.shields.io/github/stars/aaravjain475-byte/social-wall-clone?style=for-the-badge)](https://github.com/aaravjain475-byte/social-wall-clone/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/aaravjain475-byte/social-wall-clone?style=for-the-badge)](https://github.com/aaravjain475-byte/social-wall-clone/network)
+[![GitHub issues](https://img.shields.io/github/issues/aaravjain475-byte/social-wall-clone?style=for-the-badge)](https://github.com/aaravjain475-byte/social-wall-clone/issues)
+
+</div>
+
+## Screenshots
+
+<div align="center">
+  <img src="https://via.placeholder.com/800x400/000000/ffffff?text=Social+Wall+Clone+Demo" alt="Social Wall Clone Demo" width="800"/>
+</div>
 
 ## Features
 
-- **Real-time Social Media Feed**: Live updates from multiple social platforms
-- **Multiple Layout Options**: Masonry, Grid, and List views
-- **Platform Filtering**: Filter by Instagram, Twitter, Facebook, LinkedIn
-- **Infinite Scroll**: Seamless loading of more content
-- **Auto-refresh**: Automatic content updates every 10 seconds
-- **Responsive Design**: Perfect on all devices
-- **Beautiful Animations**: Smooth transitions using Framer Motion
-- **Interactive Elements**: Like, comment, and share functionality
-- **Image Lightbox**: Click to expand images
-- **Performance Optimized**: Lazy loading and virtualization ready
+### Core Functionality
+- **Real-time Social Media Feed** - Live updates every 10 seconds
+- **Multiple Layout Options** - Masonry, Grid, and List views
+- **Platform Filtering** - Instagram, Twitter, Facebook, LinkedIn
+- **Infinite Scroll** - Seamless content loading
+- **Auto-refresh** - Toggle automatic updates
+- **Responsive Design** - Perfect on all devices
+
+### Interactive Elements
+- **Like System** - Real-time like updates with animations
+- **Comment System** - Comment counter with mock data
+- **Share Functionality** - Share button with animations
+- **Image Lightbox** - Click to expand images with smooth transitions
+- **Hover Effects** - Card lift, scale, and shadow animations
+- **Loading States** - Beautiful skeleton loaders
+
+### Advanced Features
+- **Custom Hooks** - Reusable infinite scroll and auto-refresh logic
+- **Performance Optimization** - Intersection Observer, lazy loading
+- **Mock API Server** - Express.js with Server-Sent Events
+- **Real-time Updates** - WebSocket-like simulation
+- **Analytics Dashboard** - Mock analytics data
+- **Error Handling** - Graceful error states and retry mechanisms
 
 ## Tech Stack
 
 ### Frontend
-- **React 18** - Modern React with hooks
-- **Vite** - Fast build tool and dev server
+- **React 18** - Modern React with hooks and concurrent features
+- **Vite** - Fast build tool and HMR
 - **Tailwind CSS** - Utility-first CSS framework
 - **Framer Motion** - Production-ready animations
-- **Custom Hooks** - Reusable infinite scroll and auto-refresh logic
+- **Custom Hooks** - Modular, reusable logic
 
 ### Backend (Mock API)
 - **Express.js** - RESTful API server
 - **Server-Sent Events** - Real-time updates
 - **Mock Data** - Realistic social media posts simulation
-
-## Project Structure
-
-```
-social_wall/
-src/
-  components/
-    Header.jsx          # Navigation and controls
-    PostCard.jsx        # Individual post component
-    LoadingSkeleton.jsx # Loading states
-  hooks/
-    useInfiniteScroll.js # Infinite scroll logic
-    useAutoRefresh.js   # Auto-refresh functionality
-  utils/
-    mockData.js         # Mock data generation
-  App.jsx              # Main application component
-  main.jsx             # Application entry point
-  index.css            # Global styles and Tailwind
-server.js              # Mock API server
-package.json
-vite.config.js
-tailwind.config.js
-postcss.config.js
-README.md
-```
 
 ## Quick Start
 
@@ -62,13 +71,18 @@ README.md
 
 ### Installation
 
-1. **Clone and install dependencies**
+1. **Clone the repository**
 ```bash
-cd social_wall
+git clone https://github.com/aaravjain475-byte/social-wall-clone.git
+cd social-wall-clone
+```
+
+2. **Install dependencies**
+```bash
 npm install
 ```
 
-2. **Start the development server**
+3. **Start the development servers**
 ```bash
 # Start frontend (Vite dev server)
 npm run dev
@@ -77,7 +91,7 @@ npm run dev
 npm run server
 ```
 
-3. **Open your browser**
+4. **Open your browser**
 - Frontend: http://localhost:3000
 - API Health Check: http://localhost:3001/api/health
 
@@ -103,6 +117,28 @@ npm run server
 - **Share**: Share posts
 - **Image Lightbox**: Click images to expand
 
+## Project Structure
+
+```
+social-wall-clone/
+src/
+  components/
+    Header.jsx          # Navigation and controls
+    PostCard.jsx        # Individual post component
+    LoadingSkeleton.jsx # Loading states
+  hooks/
+    useInfiniteScroll.js # Infinite scroll logic
+    useAutoRefresh.js   # Auto-refresh functionality
+  utils/
+    mockData.js         # Mock data generation
+  App.jsx              # Main application component
+  main.jsx             # Application entry point
+  index.css            # Global styles and Tailwind
+server.js              # Mock API server
+package.json           # Dependencies and scripts
+README.md              # This file
+```
+
 ## API Endpoints
 
 ### REST API
@@ -115,22 +151,6 @@ npm run server
 
 ### Real-time Events
 - `GET /api/events` - Server-Sent Events for real-time updates
-
-## Customization
-
-### Adding New Platforms
-1. Update `platformDistribution` in `src/utils/mockData.js`
-2. Add platform icons and colors in `src/components/PostCard.jsx`
-3. Update filter options in `src/components/Header.jsx`
-
-### Styling
-- Modify `tailwind.config.js` for theme customization
-- Update `src/index.css` for global styles
-- Component-specific styles are in respective component files
-
-### Animation Timing
-- Adjust animation durations in `src/index.css` keyframes
-- Modify Framer Motion transitions in components
 
 ## Performance Features
 
@@ -147,66 +167,55 @@ npm run server
 - **Service Worker** for offline functionality
 - **Caching strategy** with SWR or React Query
 
-## Browser Support
+## Deployment
 
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
+### Netlify (Recommended)
+1. Push to GitHub
+2. Connect your repository to [Netlify](https://netlify.com)
+3. Set build command: `npm run build`
+4. Set publish directory: `dist`
 
-## Development
+### Vercel
+1. Push to GitHub
+2. Connect your repository to [Vercel](https://vercel.com)
+3. Vercel will auto-detect the settings
 
-### Available Scripts
-```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run server   # Start mock API server
-```
-
-### Environment Variables
-```bash
-PORT=3001              # API server port
-VITE_API_URL=http://localhost:3001  # Frontend API URL
-```
-
-## Production Deployment
-
-### Build for Production
+### Manual Deployment
 ```bash
 npm run build
-```
-
-### Deploy with Docker
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "run", "preview"]
+# Deploy the 'dist' folder to your hosting provider
 ```
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-MIT License - feel free to use this project for personal or commercial purposes.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- Inspired by Social Walls by Taggbox
+- Inspired by [Social Walls by Taggbox](https://display.socialwalls.com/)
 - Built with modern web technologies
 - Icons and placeholder images from various sources
 
+## Contact
+
+- **Author**: Aarav Jain
+- **Email**: aarav.jain475@gmail.com
+- **GitHub**: [@aaravjain475-byte](https://github.com/aaravjain475-byte)
+
 ---
 
-**Note**: This is a demonstration project with mock data. In production, you would integrate with actual social media APIs and implement proper authentication and rate limiting.
+<div align="center">
+
+**[Star this repository](https://github.com/aaravjain475-byte/social-wall-clone) if you found it helpful!**
+
+Made with React, Vite, Tailwind CSS, and Framer Motion
+
+</div>
