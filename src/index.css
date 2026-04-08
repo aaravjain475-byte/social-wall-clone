@@ -29,6 +29,7 @@
     border: 1px solid #e5e7eb;
     margin: 0;
     padding: 0;
+    border-collapse: collapse;
   }
 
   .masonry-grid {
@@ -36,12 +37,15 @@
     column-gap: 0;
     column-fill: balance;
     padding: 0;
+    margin: 0;
+    border-spacing: 0;
   }
 
   .masonry-item {
     break-inside: avoid;
-    margin-bottom: 0;
+    margin: 0;
     padding: 0;
+    border-spacing: 0;
   }
   
   .social-header {

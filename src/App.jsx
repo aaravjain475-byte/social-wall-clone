@@ -64,7 +64,6 @@ function App() {
 
   // Custom hooks
   const { lastElementRef } = useInfiniteScroll(loadMorePosts, loading);
-  useAutoRefresh(refreshPosts, 10000); // Refresh every 10 seconds
   const { containerRef: autoScrollRef, handleMouseEnter, handleMouseLeave } = useAutoScroll(true, 0.25);
 
   // No filtering - show all posts
