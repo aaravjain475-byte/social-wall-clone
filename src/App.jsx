@@ -33,13 +33,13 @@ function App() {
       // Show the popup
       setSelectedPost(randomPost);
       
-      // Hide after 5-10 seconds (random)
+      // Hide after 10 seconds
       const hideTimeout = setTimeout(() => {
         setSelectedPost(null);
-      }, Math.random() * 5000 + 5000); // 5-10 seconds
+      }, 10000); // 10 seconds
       
       return () => clearTimeout(hideTimeout);
-    }, Math.random() * 2000 + 1000); // 1-3 seconds between popups
+    }, 10000); // 10 seconds between popups
 
     return () => clearInterval(popupInterval);
   }, [autoPopupEnabled, posts]);
