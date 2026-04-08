@@ -39,7 +39,7 @@ function App() {
       }, 10000); // 10 seconds
       
       return () => clearTimeout(hideTimeout);
-    }, 10000); // 10 seconds between popups
+    }, 15000); // 10 seconds display + 5 seconds delay = 15 seconds total cycle
 
     return () => clearInterval(popupInterval);
   }, [autoPopupEnabled, posts]);
