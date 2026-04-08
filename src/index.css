@@ -28,17 +28,20 @@
     @apply bg-white shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-3xl;
     border: 1px solid #e5e7eb;
     margin: 0;
+    padding: 0;
   }
 
   .masonry-grid {
     column-count: 5;
     column-gap: 0;
     column-fill: balance;
+    padding: 0;
   }
 
   .masonry-item {
     break-inside: avoid;
     margin-bottom: 0;
+    padding: 0;
   }
   
   .social-header {
