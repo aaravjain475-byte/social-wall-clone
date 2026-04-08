@@ -149,26 +149,10 @@ const PostModal = ({ post, onClose }) => {
         audioRef.current.pause();
         setIsAudioPlaying(false);
       } else {
-        // Create a simple beep sound using Web Audio API
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.value = 800; // 800Hz beep
-        oscillator.type = 'sine';
-        gainNode.gain.value = 0.1; // Low volume
-        
-        oscillator.start();
+        audioRef.current.play().catch(error => {
+          console.error('Audio play failed:', error);
+        });
         setIsAudioPlaying(true);
-        
-        // Stop after 1 second
-        setTimeout(() => {
-          oscillator.stop();
-          setIsAudioPlaying(false);
-        }, 1000);
       }
     }
   };
