@@ -95,6 +95,12 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
             <span className={`social-platform ${getPlatformColor(post.platform)}`}>
               {getPlatformIcon(post.platform)}
             </span>
+            {/* Reel Indicator */}
+            {(post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video')) && (
+              <span className="px-2 py-1 bg-red-500 text-white text-xs rounded-full font-semibold">
+                REEL
+              </span>
+            )}
             <span className="text-xs text-gray-500">{formatTime(post.timestamp)}</span>
           </div>
         </div>
