@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 const sampleTexts = [
+  "🎬 NEW REEL ALERT! Just dropped this amazing Instagram reel showing my morning routine. Watch till the end for the surprise transition! This is how content creators really start their day... #reel #instagram #morningroutine",
   "Just launched our new product! So excited to share this with everyone. #innovation #tech",
   "Beautiful sunset today. Sometimes you need to pause and appreciate the little things in life. #sunset #nature",
   "Working on something amazing! Can't wait to show you all what we've been building. #startup #entrepreneur",
