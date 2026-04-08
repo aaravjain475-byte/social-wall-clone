@@ -155,43 +155,23 @@ const PostModal = ({ post, onClose }) => {
         </svg>
       </button>
 
-      {/* Post Content */}
-      <div className="p-6">
-        {/* Header */}
-        <div className="flex items-center mb-4">
-          <img
-            src={post.avatar}
-            alt={post.username}
-            className="w-12 h-12 rounded-full object-cover mr-3"
-          />
-          <div>
-            <h3 className="font-semibold text-gray-900">{post.username}</h3>
-            <p className="text-sm text-gray-500">{post.platform}</p>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="mb-4">
-          <p className="text-gray-800 leading-relaxed text-lg">{post.content}</p>
-        </div>
-
-        {/* Reel Display - Instagram iframe */}
-        {isReel ? (
-          <div className="mb-4 relative w-full">
+      {/* Split Layout for Reels */}
+      {isReel ? (
+        <div className="flex h-full">
+          {/* Left Side - Video */}
+          <div className="flex-1 h-full bg-black flex items-center justify-center">
             {videoError ? (
-              <div className="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <p className="text-gray-600 mb-2">⚠️ Instagram embed blocked</p>
-                  <p className="text-sm text-gray-500">Instagram reels cannot be embedded directly</p>
-                  <p className="text-xs text-gray-400 mt-2">URL: {post.image}</p>
-                </div>
+              <div className="text-center text-white">
+                <p className="text-lg mb-2">⚠️ Instagram embed blocked</p>
+                <p className="text-sm opacity-75">Instagram reels cannot be embedded directly</p>
+                <p className="text-xs opacity-50 mt-2">URL: {post.image}</p>
               </div>
             ) : (
               <iframe
                 src={post.image}
-                className="w-full h-auto max-h-[70vh] rounded-lg"
-                height="560"
-                width="315"
+                className="w-full h-full"
+                height="100%"
+                width="100%"
                 frameBorder="0"
                 allowFullScreen
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -200,9 +180,51 @@ const PostModal = ({ post, onClose }) => {
               />
             )}
           </div>
-        ) : (
-          /* Regular Post Image */
-          post.image && (
+
+          {/* Right Side - Caption */}
+          <div className="w-96 bg-white p-6 overflow-y-auto">
+            {/* Header */}
+            <div className="flex items-center mb-4">
+              <img
+                src={post.avatar}
+                alt={post.username}
+                className="w-12 h-12 rounded-full object-cover mr-3"
+              />
+              <div>
+                <h3 className="font-semibold text-gray-900">{post.username}</h3>
+                <p className="text-sm text-gray-500">{post.platform}</p>
+              </div>
+            </div>
+
+            {/* Caption Content */}
+            <div className="text-gray-800 leading-relaxed">
+              <p className="text-lg">{post.content}</p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Regular Post Layout */
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex items-center mb-4">
+            <img
+              src={post.avatar}
+              alt={post.username}
+              className="w-12 h-12 rounded-full object-cover mr-3"
+            />
+            <div>
+              <h3 className="font-semibold text-gray-900">{post.username}</h3>
+              <p className="text-sm text-gray-500">{post.platform}</p>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="mb-4">
+            <p className="text-gray-800 leading-relaxed text-lg">{post.content}</p>
+          </div>
+
+          {/* Image */}
+          {post.image && (
             <div className="mb-4">
               <img
                 src={post.image}
@@ -210,9 +232,9 @@ const PostModal = ({ post, onClose }) => {
                 className="w-full rounded-lg object-cover"
               />
             </div>
-          )
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
