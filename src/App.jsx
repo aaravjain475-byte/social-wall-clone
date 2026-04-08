@@ -6,13 +6,13 @@ import LoadingSkeleton from './components/LoadingSkeleton';
 import { generateMockPosts } from './utils/mockData';
 import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 import { useAutoRefresh } from './hooks/useAutoRefresh';
+import { useAutoScroll } from './hooks/useAutoScroll';
 
 function App() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [layout, setLayout] = useState('masonry'); // masonry, grid, list
-  const [filter, setFilter] = useState('all'); // all, instagram, twitter, facebook, linkedin
   const [isPaused, setIsPaused] = useState(false);
   const containerRef = useRef(null);
 
@@ -66,19 +66,13 @@ function App() {
   // Custom hooks
   const { lastElementRef } = useInfiniteScroll(loadMorePosts, loading);
   useAutoRefresh(refreshPosts, 10000); // Refresh every 10 seconds
+  const { containerRef: autoScrollRef, handleMouseEnter, handleMouseLeave } = useAutoScroll(!isPaused, 0.5);
 
-  // Filter posts
-  const filteredPosts = posts.filter(post => {
-    if (filter === 'all') return true;
-    return post.platform.toLowerCase() === filter;
-  });
+  // No filtering - show all posts
+  const filteredPosts = posts;
 
   const handleLayoutChange = (newLayout) => {
     setLayout(newLayout);
-  };
-
-  const handleFilterChange = (newFilter) => {
-    setFilter(newFilter);
   };
 
   const handlePauseToggle = () => {
@@ -110,16 +104,20 @@ function App() {
     <div className="min-h-screen bg-black">
       <Header
         layout={layout}
-        filter={filter}
         onLayoutChange={handleLayoutChange}
-        onFilterChange={handleFilterChange}
         isPaused={isPaused}
         onPauseToggle={handlePauseToggle}
         onRefresh={handleRefresh}
         postCount={filteredPosts.length}
       />
       
-      <main className="container mx-auto px-4 py-8" ref={containerRef}>
+      <main 
+  className="container mx-auto px-4 py-8 overflow-hidden" 
+  ref={autoScrollRef}
+  onMouseEnter={handleMouseEnter}
+  onMouseLeave={handleMouseLeave}
+  style={{ height: 'calc(100vh - 200px)', overflowY: 'hidden' }}
+>
         <AnimatePresence>
           {layout === 'masonry' ? (
             <MasonryLayout posts={filteredPosts} loading={loading} lastElementRef={lastElementRef} />

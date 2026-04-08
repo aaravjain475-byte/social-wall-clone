@@ -38,7 +38,7 @@ const generateMockPosts = (count = 20) => {
     const content = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
     const hasImage = Math.random() > 0.3;
     
-    const mockPosts = {
+    const newPost = {
       id: uuidv4(),
       platform,
       username,
@@ -50,7 +50,7 @@ const generateMockPosts = (count = 20) => {
       shares: Math.floor(Math.random() * 50) + 1,
       timestamp: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString()
     };
-    mockPosts.push(mockPosts);
+    mockPosts.push(newPost);
   }
   return mockPosts;
 };

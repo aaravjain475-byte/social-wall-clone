@@ -3,9 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = ({
   layout,
-  filter,
   onLayoutChange,
-  onFilterChange,
   isPaused,
   onPauseToggle,
   onRefresh,
@@ -17,14 +15,6 @@ const Header = ({
     { id: 'masonry', icon: 'th', label: 'Masonry' },
     { id: 'grid', icon: 'grid', label: 'Grid' },
     { id: 'list', icon: 'list', label: 'List' }
-  ];
-
-  const filterOptions = [
-    { id: 'all', icon: 'globe', label: 'All', color: 'text-gray-400' },
-    { id: 'instagram', icon: 'camera', label: 'Instagram', color: 'text-pink-500' },
-    { id: 'twitter', icon: 'twitter', label: 'Twitter', color: 'text-blue-400' },
-    { id: 'facebook', icon: 'facebook', label: 'Facebook', color: 'text-blue-600' },
-    { id: 'linkedin', icon: 'linkedin', label: 'LinkedIn', color: 'text-blue-700' }
   ];
 
   return (
@@ -79,27 +69,6 @@ const Header = ({
                       <path d="M3 4h18v2H3zm0 7h18v2H3zm0 7h18v2H3z"/>
                     )}
                   </svg>
-                </motion.button>
-              ))}
-            </div>
-
-            {/* Filter Options */}
-            <div className="flex items-center space-x-2">
-              {filterOptions.map(option => (
-                <motion.button
-                  key={option.id}
-                  onClick={() => onFilterChange(option.id)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                    filter === option.id
-                      ? 'bg-gray-800 text-white'
-                      : 'text-gray-600 hover:text-white hover:bg-gray-800'
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <span className={option.color}>
-                    {option.label}
-                  </span>
                 </motion.button>
               ))}
             </div>
@@ -194,33 +163,6 @@ const Header = ({
                         whileTap={{ scale: 0.95 }}
                       >
                         {option.label}
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Mobile Filter Options */}
-                <div>
-                  <p className="text-sm text-gray-400 mb-2">Filter</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {filterOptions.map(option => (
-                      <motion.button
-                        key={option.id}
-                        onClick={() => {
-                          onFilterChange(option.id);
-                          setIsMenuOpen(false);
-                        }}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          filter === option.id
-                            ? 'bg-gray-800 text-white'
-                            : 'text-gray-600 hover:text-white hover:bg-gray-800'
-                        }`}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <span className={option.color}>
-                          {option.label}
-                        </span>
                       </motion.button>
                     ))}
                   </div>

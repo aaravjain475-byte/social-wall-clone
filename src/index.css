@@ -135,4 +135,14 @@
     transform: translateY(-8px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   }
+
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .auto-scroll-container {
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
 }
