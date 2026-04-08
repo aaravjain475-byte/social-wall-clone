@@ -13,12 +13,36 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [autoPopupEnabled, setAutoPopupEnabled] = useState(true);
   const containerRef = useRef(null);
 
   // Load initial posts
   useEffect(() => {
     loadInitialPosts();
   }, []);
+
+  // Auto popup functionality
+  useEffect(() => {
+    if (!autoPopupEnabled || posts.length === 0) return;
+
+    const popupInterval = setInterval(() => {
+      // Select a random post
+      const randomIndex = Math.floor(Math.random() * posts.length);
+      const randomPost = posts[randomIndex];
+      
+      // Show the popup
+      setSelectedPost(randomPost);
+      
+      // Hide after 5-10 seconds (random)
+      const hideTimeout = setTimeout(() => {
+        setSelectedPost(null);
+      }, Math.random() * 5000 + 5000); // 5-10 seconds
+      
+      return () => clearTimeout(hideTimeout);
+    }, Math.random() * 2000 + 1000); // 1-3 seconds between popups
+
+    return () => clearInterval(popupInterval);
+  }, [autoPopupEnabled, posts]);
 
   const loadInitialPosts = async () => {
     try {
@@ -70,7 +94,10 @@ function App() {
   const filteredPosts = posts;
 
   const handlePostClick = (post) => {
-    setSelectedPost(post);
+    // Manual click disabled for auto-popup mode
+    if (!autoPopupEnabled) {
+      setSelectedPost(post);
+    }
   };
 
   const handleCloseModal = () => {
@@ -79,6 +106,10 @@ function App() {
 
   const handlePauseToggle = () => {
     setIsPaused(!isPaused);
+  };
+
+  const toggleAutoPopup = () => {
+    setAutoPopupEnabled(!autoPopupEnabled);
   };
 
   if (error) {
@@ -100,6 +131,20 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Auto Popup Toggle */}
+      <div className="fixed top-4 left-4 z-40">
+        <button
+          onClick={toggleAutoPopup}
+          className={`px-4 py-2 rounded-lg transition-colors ${
+            autoPopupEnabled 
+              ? 'bg-green-600 text-white hover:bg-green-700' 
+              : 'bg-gray-600 text-white hover:bg-gray-700'
+          }`}
+        >
+          {autoPopupEnabled ? 'Auto-Popup ON' : 'Auto-Popup OFF'}
+        </button>
+      </div>
+
       <main 
         className="container mx-auto px-4 py-8 overflow-hidden" 
         ref={autoScrollRef}
@@ -126,7 +171,7 @@ function App() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <PostModal post={selectedPost} onClose={handleCloseModal} />
@@ -138,11 +183,8 @@ function App() {
   );
 }
 
-// Post Modal Component
+// Post Modal Component - Simple split layout
 const PostModal = ({ post, onClose }) => {
-  const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video') || post.platform.toLowerCase() === 'instagram';
-  const [videoError, setVideoError] = useState(false);
-
   return (
     <div className="relative">
       {/* Close Button */}
@@ -155,56 +197,25 @@ const PostModal = ({ post, onClose }) => {
         </svg>
       </button>
 
-      {/* Reel Modal - Same size as large reel tile */}
-      {isReel ? (
-        <div className="h-screen bg-black flex">
-          {/* Left Side - Video */}
-          <div className="flex-1 h-full bg-black flex items-center justify-center">
-            {videoError ? (
-              <div className="text-center text-white">
-                <p className="text-lg mb-2">⚠️ Instagram embed blocked</p>
-                <p className="text-sm opacity-75">Instagram reels cannot be embedded directly</p>
-                <p className="text-xs opacity-50 mt-2">URL: {post.image}</p>
-              </div>
-            ) : (
-              <iframe
-                src={post.image}
-                className="w-full h-full"
-                height="100%"
-                width="100%"
-                frameBorder="0"
-                allowFullScreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                title="Instagram Reel"
-                onError={() => setVideoError(true)}
-              />
-            )}
-          </div>
-
-          {/* Right Side - Caption */}
-          <div className="w-96 bg-white p-6 flex flex-col">
-            {/* Header */}
-            <div className="flex items-center mb-4">
-              <img
-                src={post.avatar}
-                alt={post.username}
-                className="w-12 h-12 rounded-full object-cover mr-3"
-              />
-              <div>
-                <h3 className="font-semibold text-gray-900">{post.username}</h3>
-                <p className="text-sm text-gray-500">{post.platform}</p>
-              </div>
+      {/* Split Layout - Left Image, Right Content */}
+      <div className="flex h-96">
+        {/* Left Side - Image */}
+        <div className="flex-1 h-full bg-gray-100 flex items-center justify-center">
+          {post.image ? (
+            <img
+              src={post.image}
+              alt="Post image"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="text-gray-400 text-center">
+              <p>No image available</p>
             </div>
-
-            {/* Caption Content */}
-            <div className="text-gray-800 leading-relaxed flex-1">
-              <p className="text-lg">{post.content}</p>
-            </div>
-          </div>
+          )}
         </div>
-      ) : (
-        /* Regular Post Layout */
-        <div className="p-6">
+
+        {/* Right Side - Content */}
+        <div className="w-96 bg-white p-6 flex flex-col">
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
@@ -219,22 +230,11 @@ const PostModal = ({ post, onClose }) => {
           </div>
 
           {/* Content */}
-          <div className="mb-4">
-            <p className="text-gray-800 leading-relaxed text-lg">{post.content}</p>
+          <div className="text-gray-800 leading-relaxed flex-1">
+            <p className="text-lg">{post.content}</p>
           </div>
-
-          {/* Image */}
-          {post.image && (
-            <div className="mb-4">
-              <img
-                src={post.image}
-                alt="Post image"
-                className="w-full rounded-lg object-cover"
-              />
-            </div>
-          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

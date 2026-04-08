@@ -64,11 +64,9 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
     return text.substring(0, maxLength) + '...';
   };
 
-  const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video') || post.platform.toLowerCase() === 'instagram';
-
   return (
     <motion.div
-      className={`social-card ${layout === 'list' ? 'flex-row' : ''} ${isReel ? 'reel-tile' : ''}`}
+      className={`social-card ${layout === 'list' ? 'flex-row' : ''}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.8 }}

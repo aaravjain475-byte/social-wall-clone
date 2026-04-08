@@ -50,15 +50,6 @@
     grid-row: span 3;
   }
   
-  .masonry-item.reel-tile {
-    break-inside: avoid;
-    margin: 0;
-    padding: 0;
-    border-spacing: 0;
-    grid-column: span 3;
-    grid-row: span 4;
-  }
-  
   .social-header {
     @apply flex items-center p-4 border-b border-gray-100;
   }
