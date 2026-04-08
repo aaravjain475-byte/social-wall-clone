@@ -140,7 +140,7 @@ function App() {
 
 // Post Modal Component
 const PostModal = ({ post, onClose }) => {
-  const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video');
+  const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video') || post.platform.toLowerCase() === 'instagram';
   const [videoError, setVideoError] = useState(false);
 
   return (
