@@ -141,6 +141,7 @@ function App() {
 // Post Modal Component
 const PostModal = ({ post, onClose }) => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(false);
   const audioRef = useRef(null);
 
   const toggleAudio = () => {
@@ -157,6 +158,10 @@ const PostModal = ({ post, onClose }) => {
     }
   };
 
+  const toggleAudioEnabled = () => {
+    setAudioEnabled(!audioEnabled);
+  };
+
   const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video');
 
   return (
@@ -168,6 +173,25 @@ const PostModal = ({ post, onClose }) => {
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      {/* Audio Toggle Button - Always Visible */}
+      <button
+        onClick={toggleAudioEnabled}
+        className={`absolute top-4 left-4 z-10 p-2 rounded-lg transition-all ${
+          audioEnabled 
+            ? 'bg-green-600 text-white hover:bg-green-700' 
+            : 'bg-gray-600 text-white hover:bg-gray-700'
+        }`}
+        title="Toggle audio for this reel"
+      >
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          {audioEnabled ? (
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          ) : (
+            <path d="M8 5v14l11-7z"/>
+          )}
         </svg>
       </button>
 
@@ -202,28 +226,45 @@ const PostModal = ({ post, onClose }) => {
           </div>
         )}
 
-        {/* Audio Button for Reels - Small Icon Button */}
+        {/* Audio Controls for Reels */}
         {isReel && (
-          <div className="mb-4 flex items-center">
-            <button
-              onClick={toggleAudio}
-              className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
-              title={isAudioPlaying ? "Pause Audio" : "Play Audio"}
-            >
-              {isAudioPlaying ? (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                </svg>
-              ) : (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              )}
-            </button>
-            <span className="ml-2 text-sm text-gray-500">
-              {isAudioPlaying ? 'Playing...' : 'Audio'}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center">
+              <button
+                onClick={toggleAudio}
+                className={`p-2 rounded-lg transition-all ${
+                  audioEnabled 
+                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                    : 'bg-gray-400 text-white hover:bg-gray-500'
+                }`}
+                title={isAudioPlaying ? "Pause Audio" : "Play Audio"}
+              >
+                {isAudioPlaying ? (
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                )}
+              </button>
+              <span className="ml-2 text-sm text-gray-500">
+                {isAudioPlaying ? 'Playing...' : 'Audio'}
+              </span>
+            </div>
+            <span className="ml-4 text-sm text-gray-500">
+              {audioEnabled ? 'Audio enabled for this reel' : 'Audio disabled for this reel'}
             </span>
           </div>
+        )}
+
+        {/* Hidden Audio Element */}
+        {isReel && audioEnabled && (
+          <audio
+            ref={audioRef}
+            src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAAAACkCAIAAAAFUAAAAIAAAEAAsAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQAAAAAoAAAAIAAAEAABAAAABkYXRfQaaaa"
+          />
         )}
       </div>
     </div>
