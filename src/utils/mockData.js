@@ -103,7 +103,7 @@ export const generateMockPosts = (count = 20, startIndex = 0) => {
     username: "instagram_user",
     platform: "Instagram",
     content: "Morning routine vibes! ✨ Starting the day right with coffee and positivity. What's your morning ritual? #morningroutine #coffeelover #dailyvibes #reel",
-    image: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    image: "https://www.instagram.com/reel/DVfLu0lgKof/",
     timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
     likes: Math.floor(Math.random() * 1000),
     comments: Math.floor(Math.random() * 100),
