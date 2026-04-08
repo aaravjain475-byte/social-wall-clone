@@ -77,12 +77,6 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
     >
-      {/* Reel Indicator */}
-      {isReel && (
-        <div className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full z-10">
-          REEL
-        </div>
-      )}
       {/* Header */}
       <div className={`${layout === 'list' ? 'flex-1' : ''} social-header`}>
         <img

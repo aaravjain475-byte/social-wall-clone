@@ -155,52 +155,28 @@ const PostModal = ({ post, onClose }) => {
         </svg>
       </button>
 
-      {/* Split Layout for Reels */}
+      {/* Full Screen Reel Layout */}
       {isReel ? (
-        <div className="flex h-full">
-          {/* Left Side - Video */}
-          <div className="flex-1 h-full bg-black flex items-center justify-center">
-            {videoError ? (
-              <div className="text-center text-white">
-                <p className="text-lg mb-2">⚠️ Instagram embed blocked</p>
-                <p className="text-sm opacity-75">Instagram reels cannot be embedded directly</p>
-                <p className="text-xs opacity-50 mt-2">URL: {post.image}</p>
-              </div>
-            ) : (
-              <iframe
-                src={post.image}
-                className="w-full h-full"
-                height="100%"
-                width="100%"
-                frameBorder="0"
-                allowFullScreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                title="Instagram Reel"
-                onError={() => setVideoError(true)}
-              />
-            )}
-          </div>
-
-          {/* Right Side - Caption */}
-          <div className="w-96 bg-white p-6 overflow-y-auto">
-            {/* Header */}
-            <div className="flex items-center mb-4">
-              <img
-                src={post.avatar}
-                alt={post.username}
-                className="w-12 h-12 rounded-full object-cover mr-3"
-              />
-              <div>
-                <h3 className="font-semibold text-gray-900">{post.username}</h3>
-                <p className="text-sm text-gray-500">{post.platform}</p>
-              </div>
+        <div className="h-screen bg-black flex items-center justify-center">
+          {videoError ? (
+            <div className="text-center text-white">
+              <p className="text-lg mb-2">⚠️ Instagram embed blocked</p>
+              <p className="text-sm opacity-75">Instagram reels cannot be embedded directly</p>
+              <p className="text-xs opacity-50 mt-2">URL: {post.image}</p>
             </div>
-
-            {/* Caption Content */}
-            <div className="text-gray-800 leading-relaxed">
-              <p className="text-lg">{post.content}</p>
-            </div>
-          </div>
+          ) : (
+            <iframe
+              src={post.image}
+              className="w-full h-full max-w-4xl"
+              height="100%"
+              width="100%"
+              frameBorder="0"
+              allowFullScreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              title="Instagram Reel"
+              onError={() => setVideoError(true)}
+            />
+          )}
         </div>
       ) : (
         /* Regular Post Layout */
