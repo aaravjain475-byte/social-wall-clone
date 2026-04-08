@@ -64,19 +64,17 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
     return text.substring(0, maxLength) + '...';
   };
 
-  const cardClasses = {
-    masonry: 'social-card max-w-sm',
-    grid: 'social-card',
-    list: 'social-card flex flex-row max-w-2xl'
-  };
+  const isReel = post.content.toLowerCase().includes('reel') || post.content.toLowerCase().includes('video') || post.platform.toLowerCase() === 'instagram';
 
   return (
     <motion.div
-      className={`${cardClasses[layout]} cursor-pointer`}
+      className={`social-card ${layout === 'list' ? 'flex-row' : ''} ${isReel ? 'reel-tile' : ''}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.8 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -5 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       onClick={onClick}
     >
       {/* Header */}
