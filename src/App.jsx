@@ -65,7 +65,7 @@ function App() {
   // Custom hooks
   const { lastElementRef } = useInfiniteScroll(loadMorePosts, loading);
   useAutoRefresh(refreshPosts, 10000); // Refresh every 10 seconds
-  const { containerRef: autoScrollRef, handleMouseEnter, handleMouseLeave } = useAutoScroll(!isPaused, 0.2);
+  const { containerRef: autoScrollRef, handleMouseEnter, handleMouseLeave } = useAutoScroll(true, 0.05);
 
   // No filtering - show all posts
   const filteredPosts = posts;
@@ -100,41 +100,13 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
-      {/* Floating Pause Button */}
-      <motion.button
-        onClick={handlePauseToggle}
-        className={`fixed top-4 right-4 z-40 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-          isPaused
-            ? 'bg-green-600 hover:bg-green-700 text-white'
-            : 'bg-red-600 hover:bg-red-700 text-white'
-        }`}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {isPaused ? (
-          <>
-            <svg className="w-4 h-4 inline-block mr-2" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            Resume
-          </>
-        ) : (
-          <>
-            <svg className="w-4 h-4 inline-block mr-2" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-            </svg>
-            Pause
-          </>
-        )}
-      </motion.button>
-      
+    <div className="min-h-screen bg-white">
       <main 
         className="container mx-auto px-4 py-8 overflow-hidden" 
         ref={autoScrollRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        style={{ height: 'calc(100vh - 100px)', overflowY: 'hidden' }}
+        style={{ height: 'calc(100vh - 50px)', overflowY: 'hidden' }}
       >
         <AnimatePresence>
           <MasonryLayout posts={filteredPosts} loading={loading} lastElementRef={lastElementRef} onPostClick={handlePostClick} />
