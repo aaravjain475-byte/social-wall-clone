@@ -124,7 +124,8 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
                 width: `${post.imageWidth}px`,
                 height: `${post.imageHeight}px`,
                 maxWidth: 'none',
-                maxHeight: 'none'
+                maxHeight: 'none',
+                objectFit: 'contain'
               } : {}}
               onClick={handleImageClick}
               onError={() => setImageError(true)}

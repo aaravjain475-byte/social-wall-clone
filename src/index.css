@@ -83,11 +83,14 @@
   }
   
   .social-image-exact {
-    @apply rounded-lg object-cover cursor-pointer transition-transform duration-300 hover:scale-105;
+    @apply rounded-lg cursor-pointer transition-transform duration-300 hover:scale-105;
     max-width: none !important;
     max-height: none !important;
     width: auto !important;
     height: auto !important;
+    object-fit: contain !important;
+    margin: auto !important;
+    display: block !important;
   }
   
   .social-footer {
