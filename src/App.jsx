@@ -149,7 +149,7 @@ function App() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-xl max-w-7xl w-full max-h-[95vh] overflow-y-auto"
+              className="bg-white rounded-xl max-w-6xl w-full max-h-[92vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <PostModal post={selectedPost} onClose={handleCloseModal} />
@@ -189,7 +189,7 @@ const PostModal = ({ post, onClose }) => {
       </button>
 
       {/* Split Layout - Left Image, Right Content */}
-      <div className="flex" style={{ height: '800px' }}>
+      <div className="flex" style={{ height: '700px' }}>
         {/* Left Side - Image */}
         <div className="flex-1 bg-gray-100 p-0">
           {post.image ? (
@@ -198,8 +198,8 @@ const PostModal = ({ post, onClose }) => {
               alt="Post image"
               className="w-full object-cover"
               style={{ 
-                height: contentHeight > 600 ? contentHeight + 'px' : '600px',
-                minHeight: '600px'
+                height: contentHeight > 550 ? contentHeight + 'px' : '550px',
+                minHeight: '550px'
               }}
             />
           ) : (
@@ -210,7 +210,7 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="w-[500px] bg-white p-8 flex flex-col" style={{ height: '800px' }}>
+        <div className="w-[450px] bg-white p-7 flex flex-col" style={{ height: '700px' }}>
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
