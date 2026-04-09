@@ -8,22 +8,22 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
   const [imageError, setImageError] = useState(false);
   const [isPoppedUp, setIsPoppedUp] = useState(false);
 
-  // Individual tile popup system - 20s display + 8s gap between tiles
+  // Individual tile popup system - 10s display + 8s gap between tiles
   useEffect(() => {
     // Calculate unique delay based on post ID to prevent simultaneous popups
     const postIndex = parseInt(post.id) || 0;
-    const uniqueDelay = (postIndex * 28000) + 3000; // 28s per tile (20s+8s) + 3s initial
+    const uniqueDelay = (postIndex * 18000) + 3000; // 18s per tile (10s+8s) + 3s initial
     
     const popupTimeout = setTimeout(() => {
       const cyclePopup = () => {
         setIsPoppedUp(true);
         
-        // Keep popped up for 20 seconds
+        // Keep popped up for 10 seconds
         setTimeout(() => {
           setIsPoppedUp(false);
           
           // Wait 8 seconds gap before next popup (handled by individual tile delays)
-        }, 20000);
+        }, 10000);
       };
       
       cyclePopup();
@@ -96,25 +96,25 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
       animate={{ 
         opacity: 1, 
         y: 0,
-        scale: isPoppedUp ? 1.1 : 1,
+        scale: isPoppedUp ? 1.05 : 1,
         zIndex: isPoppedUp ? 50 : 1
       }}
       exit={{ opacity: 0, scale: 0.8 }}
       transition={{ 
-        duration: isPoppedUp ? 1.5 : 0.5,
-        scale: { duration: 1.5, ease: "easeInOut" }
+        duration: isPoppedUp ? 0.8 : 0.5,
+        ease: "easeOut"
       }}
-      whileHover={{ scale: isPoppedUp ? 1.1 : 1.02 }}
-      whileTap={{ scale: isPoppedUp ? 1.1 : 0.98 }}
+      whileHover={{ scale: isPoppedUp ? 1.05 : 1.02 }}
+      whileTap={{ scale: isPoppedUp ? 1.05 : 0.98 }}
       onClick={onClick}
       style={{
         position: isPoppedUp ? 'fixed' : 'relative',
         top: isPoppedUp ? '50%' : 'auto',
         left: isPoppedUp ? '50%' : 'auto',
         transform: isPoppedUp ? 'translate(-50%, -50%)' : 'none',
-        width: isPoppedUp ? '80%' : 'auto',
-        maxWidth: isPoppedUp ? '800px' : 'none',
-        boxShadow: isPoppedUp ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' : 'none'
+        width: isPoppedUp ? '60%' : 'auto',
+        maxWidth: isPoppedUp ? '600px' : 'none',
+        boxShadow: isPoppedUp ? '0 20px 40px -10px rgba(0, 0, 0, 0.4)' : 'none'
       }}
     >
       {/* Header */}
