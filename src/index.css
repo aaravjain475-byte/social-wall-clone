@@ -46,8 +46,10 @@
     margin: 0;
     padding: 0;
     border-spacing: 0;
-    grid-column: span 2;
-    grid-row: span 3;
+    width: 530px !important;
+    height: 661px !important;
+    max-width: 530px !important;
+    max-height: 661px !important;
   }
   
   .social-header {
