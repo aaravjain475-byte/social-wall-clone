@@ -171,7 +171,7 @@ function App() {
         style={{ height: 'calc(100vh - 50px)', overflowY: 'hidden' }}
       >
         <AnimatePresence>
-          <MasonryLayout posts={filteredPosts} loading={loading} lastElementRef={lastElementRef} onPostClick={handlePostClick} />
+          <MasonryLayout posts={filteredPosts} loading={loading} lastElementRef={lastElementRef} onPostClick={handlePostClick} layout="masonry" />
         </AnimatePresence>
       </main>
 
@@ -332,24 +332,24 @@ const PostModal = ({ post, onClose }) => {
 };
 
 // Masonry Layout Component
-const MasonryLayout = ({ posts, loading, lastElementRef, onPostClick }) => (
-  <div className="uniform-grid">
+const MasonryLayout = ({ posts, loading, lastElementRef, onPostClick, layout }) => (
+  <div className="masonry-grid">
     <AnimatePresence>
       {posts.map((post, index) => (
         <motion.div
           key={post.id}
           ref={index === posts.length - 1 ? lastElementRef : null}
-          className="uniform-grid-item"
+          className="masonry-item"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
         >
-          <PostCard post={post} layout="uniform" onClick={() => onPostClick(post)} />
+          <PostCard post={post} layout="masonry" onClick={() => onPostClick(post)} />
         </motion.div>
       ))}
     </AnimatePresence>
-    {loading && <LoadingSkeleton layout="uniform" />}
+    {loading && <LoadingSkeleton layout="masonry" />}
   </div>
 );
 
