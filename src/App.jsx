@@ -176,14 +176,21 @@ const PostModal = ({ post, onClose }) => {
     }
   }, [post]);
 
-  // Calculate image dimensions to match right panel height
-  const calculateImageDimensions = () => {
-    const panelHeight = 650; // Maximum 17cm at 96 DPI
-    const imageWidth = (panelHeight * 4) / 5; // 4:5 ratio for reference
-    return { width: imageWidth, height: panelHeight };
+  // Calculate dynamic dimensions based on text content
+  const calculateDynamicDimensions = () => {
+    if (contentRef.current) {
+      const scrollWidth = contentRef.current.scrollWidth;
+      const scrollHeight = contentRef.current.scrollHeight;
+      const headerHeight = 80; // Approximate header height
+      const padding = 48; // p-6 = 24px * 2
+      const effectiveWidth = Math.min(Math.max(scrollWidth + padding + 20, 300), 400); // Min 300px, max 400px
+      const effectiveHeight = Math.min(Math.max(scrollHeight + headerHeight + padding, 200), 600); // Min 200px, max 600px
+      return { width: effectiveWidth, height: effectiveHeight };
+    }
+    return { width: 378, height: 650 }; // Fallback dimensions
   };
 
-  const imageDimensions = calculateImageDimensions();
+  const dynamicDimensions = calculateDynamicDimensions();
 
   return (
     <div className="relative">
@@ -198,9 +205,9 @@ const PostModal = ({ post, onClose }) => {
       </button>
 
       {/* Split Layout - Left Image, Right Content */}
-      <div className="flex" style={{ height: '650px' }}>
+      <div className="flex" style={{ height: `${dynamicDimensions.height}px` }}>
         {/* Left Side - Image */}
-        <div className="bg-gray-100 p-0" style={{ width: `${imageDimensions.width}px` }}>
+        <div className="bg-gray-100 p-0" style={{ width: `${(dynamicDimensions.height * 4) / 5}px` }}>
           {post.image ? (
             <img
               src={post.image}
@@ -215,7 +222,7 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="w-[378px] bg-white p-6 flex flex-col" style={{ height: '650px' }}>
+        <div className="bg-white p-6 flex flex-col" style={{ width: `${dynamicDimensions.width}px`, height: `${dynamicDimensions.height}px` }}>
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
