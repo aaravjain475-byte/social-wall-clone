@@ -176,12 +176,11 @@ const PostModal = ({ post, onClose }) => {
     }
   }, [post]);
 
-  // Calculate image dimensions based on 4:5 ratio and balanced layout
+  // Calculate image dimensions to match right panel height
   const calculateImageDimensions = () => {
-    const effectiveHeight = needsScroll ? Math.min(contentHeight, 700) : 650;
-    const imageHeight = Math.max(effectiveHeight, 500); // Minimum 500px
-    const imageWidth = (imageHeight * 4) / 5; // 4:5 ratio
-    return { width: imageWidth, height: imageHeight };
+    const panelHeight = 680; // 17cm at 96 DPI
+    const imageWidth = (panelHeight * 4) / 5; // 4:5 ratio for reference
+    return { width: imageWidth, height: panelHeight };
   };
 
   const imageDimensions = calculateImageDimensions();
@@ -199,7 +198,7 @@ const PostModal = ({ post, onClose }) => {
       </button>
 
       {/* Split Layout - Left Image, Right Content */}
-      <div className="flex" style={{ height: `${imageDimensions.height}px` }}>
+      <div className="flex" style={{ height: '680px' }}>
         {/* Left Side - Image */}
         <div className="bg-gray-100 p-0" style={{ width: `${imageDimensions.width}px` }}>
           {post.image ? (
@@ -216,7 +215,7 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="w-[341px] bg-white p-6 flex flex-col" style={{ height: `${imageDimensions.height}px` }}>
+        <div className="w-[378px] bg-white p-6 flex flex-col" style={{ height: '680px' }}>
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
