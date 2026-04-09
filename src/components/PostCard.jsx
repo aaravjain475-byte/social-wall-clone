@@ -66,7 +66,7 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
 
   return (
     <motion.div
-      className={`social-card ${layout === 'list' ? 'flex-row' : ''}`}
+      className={`social-card ${layout === 'list' ? 'flex-row' : layout === 'uniform' ? 'uniform-card' : ''}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.8 }}

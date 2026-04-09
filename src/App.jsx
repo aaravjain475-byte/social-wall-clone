@@ -267,23 +267,23 @@ const PostModal = ({ post, onClose }) => {
 
 // Masonry Layout Component
 const MasonryLayout = ({ posts, loading, lastElementRef, onPostClick }) => (
-  <div className="masonry-grid">
+  <div className="uniform-grid">
     <AnimatePresence>
       {posts.map((post, index) => (
         <motion.div
           key={post.id}
           ref={index === posts.length - 1 ? lastElementRef : null}
-          className="masonry-item"
+          className="uniform-grid-item"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
         >
-          <PostCard post={post} layout="masonry" onClick={() => onPostClick(post)} />
+          <PostCard post={post} layout="uniform" onClick={() => onPostClick(post)} />
         </motion.div>
       ))}
     </AnimatePresence>
-    {loading && <LoadingSkeleton layout="masonry" />}
+    {loading && <LoadingSkeleton layout="uniform" />}
   </div>
 );
 
