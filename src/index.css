@@ -33,9 +33,9 @@
   }
 
   .masonry-grid {
-    column-count: 5;
-    column-gap: 0;
-    column-fill: balance;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
     padding: 0;
     margin: 0;
     border-spacing: 0;
