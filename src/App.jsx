@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PostCard from './components/PostCard';
 import LoadingSkeleton from './components/LoadingSkeleton';
-import { generateMockPosts } from './utils/mockData';
 import { useInfiniteScroll } from './hooks/useInfiniteScroll';
 import { useAutoRefresh } from './hooks/useAutoRefresh';
 import { useAutoScroll } from './hooks/useAutoScroll';
@@ -46,10 +45,9 @@ function App() {
   const loadInitialPosts = async () => {
     try {
       setLoading(true);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const initialPosts = generateMockPosts(20);
-      setPosts(initialPosts);
+      const response = await fetch('http://localhost:3001/api/posts');
+      const data = await response.json();
+      setPosts(data.posts);
       setLoading(false);
     } catch (err) {
       setError('Failed to load posts');
@@ -63,9 +61,9 @@ function App() {
     
     try {
       setLoading(true);
-      await new Promise(resolve => setTimeout(resolve, 800));
-      const newPosts = generateMockPosts(10, posts.length);
-      setPosts(prev => [...prev, ...newPosts]);
+      const response = await fetch(`http://localhost:3001/api/posts?page=${Math.floor(posts.length / 20) + 1}`);
+      const data = await response.json();
+      setPosts(prev => [...prev, ...data.posts]);
       setLoading(false);
     } catch (err) {
       setError('Failed to load more posts');
@@ -78,8 +76,9 @@ function App() {
     if (isPaused) return;
     
     try {
-      const newPosts = generateMockPosts(5, posts.length);
-      setPosts(prev => [ ...newPosts, ...prev.slice(0, -5) ]);
+      const response = await fetch('http://localhost:3001/api/posts');
+      const data = await response.json();
+      setPosts(data.posts);
     } catch (err) {
       console.error('Failed to refresh posts:', err);
     }
