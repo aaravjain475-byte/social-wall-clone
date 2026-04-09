@@ -109,11 +109,13 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
       onClick={onClick}
       style={{
         position: isPoppedUp ? 'fixed' : 'relative',
-        top: isPoppedUp ? '50%' : 'auto',
-        left: isPoppedUp ? '50%' : 'auto',
+        top: isPoppedUp ? '50vh' : 'auto',
+        left: isPoppedUp ? '50vw' : 'auto',
         transform: isPoppedUp ? 'translate(-50%, -50%)' : 'none',
-        width: isPoppedUp ? '60%' : 'auto',
-        maxWidth: isPoppedUp ? '600px' : 'none',
+        width: isPoppedUp ? '90vw' : 'auto',
+        maxWidth: isPoppedUp ? '500px' : 'none',
+        maxHeight: isPoppedUp ? '80vh' : 'none',
+        overflow: isPoppedUp ? 'auto' : 'visible',
         boxShadow: isPoppedUp ? '0 20px 40px -10px rgba(0, 0, 0, 0.4)' : 'none'
       }}
     >
