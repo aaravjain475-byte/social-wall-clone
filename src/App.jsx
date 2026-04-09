@@ -176,6 +176,16 @@ const PostModal = ({ post, onClose }) => {
     }
   }, [post]);
 
+  // Calculate image dimensions based on 4:5 ratio and content height
+  const calculateImageDimensions = () => {
+    const effectiveHeight = needsScroll ? contentHeight : 550;
+    const imageHeight = Math.max(effectiveHeight, 400); // Minimum 400px
+    const imageWidth = (imageHeight * 4) / 5; // 4:5 ratio
+    return { width: imageWidth, height: imageHeight };
+  };
+
+  const imageDimensions = calculateImageDimensions();
+
   return (
     <div className="relative">
       {/* Close Button */}
@@ -189,17 +199,14 @@ const PostModal = ({ post, onClose }) => {
       </button>
 
       {/* Split Layout - Left Image, Right Content */}
-      <div className="flex" style={{ height: '700px' }}>
+      <div className="flex" style={{ height: `${imageDimensions.height}px` }}>
         {/* Left Side - Image */}
-        <div className="flex-1 bg-gray-100 p-0">
+        <div className="bg-gray-100 p-0" style={{ width: `${imageDimensions.width}px` }}>
           {post.image ? (
             <img
               src={post.image}
               alt="Post image"
               className="w-full h-full object-contain"
-              style={{ 
-                height: '700px'
-              }}
             />
           ) : (
             <div className="text-gray-400 text-center">
@@ -209,7 +216,7 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="w-[450px] bg-white p-7 flex flex-col" style={{ height: '700px' }}>
+        <div className="w-[450px] bg-white p-7 flex flex-col" style={{ height: `${imageDimensions.height}px` }}>
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
