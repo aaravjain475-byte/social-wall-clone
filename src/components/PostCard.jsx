@@ -6,30 +6,52 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [lastShownPost, setLastShownPost] = useState(null);
 
-  // Auto-popup functionality - randomized tiles with 10-second display and 5-second gaps
+  // Auto-popup functionality - global coordinator to prevent duplicates
   useEffect(() => {
-    // Random delay between 0-25 seconds to stagger initial popups
-    const initialDelay = Math.random() * 25000;
-    
-    const popupTimeout = setTimeout(() => {
-      const showPopup = () => {
-        onClick(post);
-        
-        // Schedule next popup after 10 seconds display + 5 seconds gap
-        const nextPopup = setTimeout(() => {
-          showPopup();
-        }, 15000); // 10 seconds display + 5 seconds gap = 15 seconds total
-        
-        return nextPopup;
-      };
-      
-      return showPopup();
-    }, initialDelay);
+    // Wait for all posts to load and other components to initialize
+    const initTimeout = setTimeout(() => {
+      // Get all posts from global scope or via props
+      const allPosts = Array.from(document.querySelectorAll('.social-card')).map(card => 
+        card.querySelector('.social-username')?.textContent
+      ).filter(Boolean);
 
-    return () => {
-      clearTimeout(popupTimeout);
-    };
+      const showRandomPopup = () => {
+        // Filter out recently shown posts to avoid repetition
+        const availablePosts = allPosts.filter(username => username !== lastShownPost);
+        
+        if (availablePosts.length === 0) {
+          setLastShownPost(null); // Reset if all posts have been shown
+          return;
+        }
+        
+        // Select random post from available posts
+        const randomUsername = availablePosts[Math.floor(Math.random() * availablePosts.length)];
+        setLastShownPost(randomUsername);
+        
+        // Find the corresponding post and trigger its popup
+        const targetCard = Array.from(document.querySelectorAll('.social-card')).find(card => 
+          card.querySelector('.social-username')?.textContent === randomUsername
+        );
+        
+        if (targetCard) {
+          targetCard.click(); // Trigger the popup
+        }
+      };
+
+      // Start popup cycle: 10 seconds display, 5 seconds gap
+      const startCycle = () => {
+        showRandomPopup();
+        setTimeout(startCycle, 15000); // Next popup after 15 seconds total (10s display + 5s gap)
+      };
+
+      // Initial 3-second delay before first popup
+      setTimeout(startCycle, 3000);
+
+    }, 1000); // Wait 1 second for DOM to be ready
+
+    return () => clearTimeout(initTimeout);
   }, [post, onClick]);
 
   const handleLike = () => {
