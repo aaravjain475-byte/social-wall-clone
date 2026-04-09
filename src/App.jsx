@@ -218,10 +218,10 @@ const PostModal = ({ post, onClose }) => {
               className="w-12 h-12 rounded-full object-cover mr-3"
             />
             <div>
-              <h3 className="font-semibold text-gray-900">{post.username}</h3>
+              <h3 className="font-semibold text-gray-900 text-lg">{post.username}</h3>
               <div className="flex items-center space-x-2">
-                <span className="text-xs text-gray-500">{post.platform}</span>
-                <span className="text-xs text-gray-500">
+                <span className="text-sm text-gray-500">{post.platform}</span>
+                <span className="text-sm text-gray-500">
                   {new Date(post.timestamp).toLocaleDateString()}
                 </span>
               </div>
@@ -238,7 +238,7 @@ const PostModal = ({ post, onClose }) => {
                 animation: needsScroll ? 'scroll 20s linear infinite' : 'none'
               }}
             >
-              <p className="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
+              <p className="text-gray-800 text-base leading-relaxed whitespace-pre-wrap">
                 {post.content}
               </p>
             </div>
