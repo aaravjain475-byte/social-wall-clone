@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 // ConquestBits Instagram posts content
 const conquestBitsPosts = [
   {
+    content: "We are happy to announce Mr. Sachin Bhatia, Founder and CGO at Exotel, will be joining us for a fireside chat at The Conquest Mixer 2026.\n\nSachin is a seasoned entrepreneur and Co-founder of @exotel_com , a leading cloud communication platform empowering businesses to seamlessly engage with their customers at scale. With years of experience building and scaling startups, Sachin has played a pivotal role in shaping India's SaaS and telecom infrastructure landscape.\n\nThe fireside chat will feature insights on building resilient startups, navigating product-market fit, and lessons from his journey of scaling Exotel into a category-defining company.\n\n📍 @venturexindia , Sector 67, Gurgaon\nRegister now. Link in bio #conquestmixer2026 #firesidechat #sachinbhatia #exotel #startup #entrepreneur",
+    image: "https://picsum.photos/seed/conquestbits-fireside/400/500.jpg"
+  },
+  {
     content: "Check out our latest post! https://www.instagram.com/p/DW5obaekbz0/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA== #conquestbits #latest #instagram",
     image: "https://picsum.photos/seed/conquestbits-special/400/500.jpg"
   },
@@ -131,13 +135,13 @@ const generateRandomPost = (index) => {
 export const generateMockPosts = (count = 20, startIndex = 0) => {
   const posts = [];
   
-  // Always add the specific Instagram post first
+  // Always add the fireside chat post first
   posts.push({
     id: uuidv4(),
     username: 'conquestbits',
     platform: 'Instagram',
-    content: "Check out our latest post! https://www.instagram.com/p/DW5obaekbz0/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA== #conquestbits #latest #instagram",
-    image: "https://picsum.photos/seed/conquestbits-special/400/500.jpg",
+    content: "We are happy to announce Mr. Sachin Bhatia, Founder and CGO at Exotel, will be joining us for a fireside chat at The Conquest Mixer 2026.\n\nSachin is a seasoned entrepreneur and Co-founder of @exotel_com , a leading cloud communication platform empowering businesses to seamlessly engage with their customers at scale. With years of experience building and scaling startups, Sachin has played a pivotal role in shaping India's SaaS and telecom infrastructure landscape.\n\nThe fireside chat will feature insights on building resilient startups, navigating product-market fit, and lessons from his journey of scaling Exotel into a category-defining company.\n\n📍 @venturexindia , Sector 67, Gurgaon\nRegister now. Link in bio #conquestmixer2026 #firesidechat #sachinbhatia #exotel #startup #entrepreneur",
+    image: "https://picsum.photos/seed/conquestbits-fireside/400/500.jpg",
     timestamp: new Date(Date.now() - 1000 * 60 * 0).toISOString(),
     likes: Math.floor(Math.random() * 1000) + 100,
     comments: Math.floor(Math.random() * 100) + 10,
