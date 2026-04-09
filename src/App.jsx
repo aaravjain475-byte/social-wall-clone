@@ -176,18 +176,18 @@ const PostModal = ({ post, onClose }) => {
     }
   }, [post]);
 
-  // Calculate dynamic dimensions based on text content
+  // Calculate dynamic dimensions based on text content with minimal padding
   const calculateDynamicDimensions = () => {
     if (contentRef.current) {
       const scrollWidth = contentRef.current.scrollWidth;
       const scrollHeight = contentRef.current.scrollHeight;
-      const headerHeight = 80; // Approximate header height
-      const padding = 48; // p-6 = 24px * 2
-      const effectiveWidth = Math.min(Math.max(scrollWidth + padding + 20, 300), 400); // Min 300px, max 400px
-      const effectiveHeight = Math.min(Math.max(scrollHeight + headerHeight + padding, 200), 600); // Min 200px, max 600px
+      const headerHeight = 60; // Approximate header height
+      const padding = 24; // Minimal padding (p-3 = 12px * 2)
+      const effectiveWidth = Math.min(Math.max(scrollWidth + padding + 10, 250), 350); // Min 250px, max 350px
+      const effectiveHeight = Math.min(Math.max(scrollHeight + headerHeight + padding, 150), 500); // Min 150px, max 500px
       return { width: effectiveWidth, height: effectiveHeight };
     }
-    return { width: 378, height: 650 }; // Fallback dimensions
+    return { width: 300, height: 400 }; // Fallback dimensions
   };
 
   const dynamicDimensions = calculateDynamicDimensions();
@@ -222,7 +222,7 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="bg-white p-6 flex flex-col" style={{ width: `${dynamicDimensions.width}px`, height: `${dynamicDimensions.height}px` }}>
+        <div className="bg-white p-3 flex flex-col" style={{ width: `${dynamicDimensions.width}px`, height: `${dynamicDimensions.height}px` }}>
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
