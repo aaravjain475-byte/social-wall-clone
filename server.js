@@ -50,8 +50,23 @@ const loadScrapedPosts = async () => {
     Object.keys(fileGroups).forEach(basename => {
       const group = fileGroups[basename];
       
-      if (group['.jpg'] && group['.txt']) {
-        const imagePath = `/scraped_images/${group['.jpg']}`;
+      // Check for image (.jpg/.png) or video (.mp4) with corresponding text
+      if ((group['.jpg'] || group['.png'] || group['.mp4']) && group['.txt']) {
+        // Determine media type and path
+        let mediaPath;
+        let mediaType;
+        
+        if (group['.mp4']) {
+          mediaPath = `/scraped_images/${group['.mp4']}`;
+          mediaType = 'video';
+        } else if (group['.jpg']) {
+          mediaPath = `/scraped_images/${group['.jpg']}`;
+          mediaType = 'image';
+        } else if (group['.png']) {
+          mediaPath = `/scraped_images/${group['.png']}`;
+          mediaType = 'image';
+        }
+        
         const textPath = path.join(scrapedDir, group['.txt']);
         
         try {
@@ -64,7 +79,8 @@ const loadScrapedPosts = async () => {
             username: 'conquest', // Updated username
             content: content.trim(),
             avatar: '/scraped_images/conquest_logo.png', // Conquest logo
-            image: imagePath,
+            image: mediaPath,
+            mediaType: mediaType, // Add media type field
             likes: Math.floor(Math.random() * 1000) + 10,
             comments: Math.floor(Math.random() * 100) + 1,
             shares: Math.floor(Math.random() * 50) + 1,

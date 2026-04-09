@@ -189,17 +189,29 @@ const PostModal = ({ post, onClose }) => {
 
       {/* Split Layout - Left Image, Right Content */}
       <div className="flex" style={{ height: '800px' }}>
-        {/* Left Side - Image */}
+        {/* Left Side - Image or Video */}
         <div className="flex-1 bg-gray-800 p-0 flex items-center justify-center">
           {post.image ? (
-            <img
-              src={post.image}
-              alt="Post image"
-              className="w-full h-full object-cover"
-            />
+            post.mediaType === 'video' ? (
+              <video
+                src={post.image}
+                alt="Post video"
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            ) : (
+              <img
+                src={post.image}
+                alt="Post image"
+                className="w-full h-full object-cover"
+              />
+            )
           ) : (
             <div className="text-gray-400 text-center">
-              <p>No image available</p>
+              <p>No media available</p>
             </div>
           )}
         </div>

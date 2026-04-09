@@ -113,40 +113,69 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
           {layout === 'list' || !post.image ? post.content : truncateText(post.content)}
         </p>
 
-        {/* Image */}
+        {/* Image or Video */}
         {post.image && !imageError && (
           <div className={`${layout === 'list' ? 'w-48 h-48 ml-4' : ''} relative flex items-center justify-center`}>
-            <img
-              src={post.image}
-              alt="Post image"
-              className={`${layout === 'list' ? 'w-full h-full' : 'social-image'}`}
-              onClick={handleImageClick}
-              onError={() => setImageError(true)}
-            />
-            
-            {/* Image Overlay */}
-            <AnimatePresence>
-              {isExpanded && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-                  onClick={handleImageClick}
-                >
-                  <motion.img
-                    src={post.image}
-                    alt="Expanded post image"
-                    className="max-w-full max-h-full object-contain rounded-lg"
-                    initial={{ scale: 0.8 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0.8 }}
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {post.mediaType === 'video' ? (
+              <video
+                src={post.image}
+                alt="Post video"
+                className={`${layout === 'list' ? 'w-full h-full' : 'social-image'}`}
+                onClick={handleImageClick}
+                autoPlay
+                loop
+                muted
+                playsInline
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <img
+                src={post.image}
+                alt="Post image"
+                className={`${layout === 'list' ? 'w-full h-full' : 'social-image'}`}
+                onClick={handleImageClick}
+                onError={() => setImageError(true)}
+              />
+            )}
           </div>
         )}
+
+        {/* Image Overlay */}
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+              onClick={handleImageClick}
+            >
+              {post.mediaType === 'video' ? (
+                <motion.video
+                  src={post.image}
+                  alt="Expanded post video"
+                  className="max-w-full max-h-full object-contain rounded-lg"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.8 }}
+                />
+              ) : (
+                <motion.img
+                  src={post.image}
+                  alt="Expanded post image"
+                  className="max-w-full max-h-full object-contain rounded-lg"
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.8 }}
+                />
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );
