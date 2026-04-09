@@ -13,7 +13,6 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
-  const [autoPopupEnabled, setAutoPopupEnabled] = useState(true);
   const containerRef = useRef(null);
 
   // Load initial posts
@@ -21,13 +20,28 @@ function App() {
     loadInitialPosts();
   }, []);
 
-  // Auto popup functionality
+  // Auto-popup first post immediately after loading
   useEffect(() => {
-    if (!autoPopupEnabled || posts.length === 0) return;
+    if (posts.length > 0 && !selectedPost) {
+      // Show the first post immediately
+      setSelectedPost(posts[0]);
+      
+      // Hide after 10 seconds
+      const hideTimeout = setTimeout(() => {
+        setSelectedPost(null);
+      }, 10000);
+      
+      return () => clearTimeout(hideTimeout);
+    }
+  }, [posts, selectedPost]);
+
+  // Continue auto-popup cycle after first popup
+  useEffect(() => {
+    if (posts.length === 0) return;
 
     const popupInterval = setInterval(() => {
-      // Select a random post
-      const randomIndex = Math.floor(Math.random() * posts.length);
+      // Select a random post (skip first post since it already showed)
+      const randomIndex = Math.floor(Math.random() * (posts.length - 1)) + 1;
       const randomPost = posts[randomIndex];
       
       // Show the popup
@@ -42,7 +56,7 @@ function App() {
     }, 15000); // 10 seconds display + 5 seconds delay = 15 seconds total cycle
 
     return () => clearInterval(popupInterval);
-  }, [autoPopupEnabled, posts]);
+  }, [posts]);
 
   const loadInitialPosts = async () => {
     try {
@@ -94,10 +108,7 @@ function App() {
   const filteredPosts = posts;
 
   const handlePostClick = (post) => {
-    // Manual click disabled for auto-popup mode
-    if (!autoPopupEnabled) {
-      setSelectedPost(post);
-    }
+    setSelectedPost(post);
   };
 
   const handleCloseModal = () => {
@@ -106,10 +117,6 @@ function App() {
 
   const handlePauseToggle = () => {
     setIsPaused(!isPaused);
-  };
-
-  const toggleAutoPopup = () => {
-    setAutoPopupEnabled(!autoPopupEnabled);
   };
 
   if (error) {
@@ -131,20 +138,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Auto Popup Toggle */}
-      <div className="fixed top-4 left-4 z-40">
-        <button
-          onClick={toggleAutoPopup}
-          className={`px-4 py-2 rounded-lg transition-colors ${
-            autoPopupEnabled 
-              ? 'bg-green-600 text-white hover:bg-green-700' 
-              : 'bg-gray-600 text-white hover:bg-gray-700'
-          }`}
-        >
-          {autoPopupEnabled ? 'Auto-Popup ON' : 'Auto-Popup OFF'}
-        </button>
-      </div>
-
       <main 
         className="container mx-auto px-4 py-8 overflow-hidden" 
         ref={autoScrollRef}
