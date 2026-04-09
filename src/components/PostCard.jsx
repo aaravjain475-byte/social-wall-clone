@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -6,6 +6,15 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
+
+  // Auto-popup functionality - trigger popup every 5 seconds
+  useEffect(() => {
+    const popupInterval = setInterval(() => {
+      onClick(post);
+    }, 5000); // 5 seconds
+
+    return () => clearInterval(popupInterval);
+  }, [post, onClick]);
 
   const handleLike = () => {
     setIsLiked(!isLiked);
