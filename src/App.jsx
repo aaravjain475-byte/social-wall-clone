@@ -196,7 +196,7 @@ const PostModal = ({ post, onClose }) => {
             <img
               src={post.image}
               alt="Post image"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               style={{ 
                 height: '700px'
               }}
