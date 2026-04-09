@@ -12,6 +12,8 @@ function App() {
   const [error, setError] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
+  const [displayedPosts, setDisplayedPosts] = useState([]);
+  const [currentCycle, setCurrentCycle] = useState('initial');
   const containerRef = useRef(null);
 
   // Load initial posts
@@ -19,33 +21,74 @@ function App() {
     loadInitialPosts();
   }, []);
 
-  // Auto popup functionality - always enabled
+  // Sequence Controller - Auto-Slideshow System
   useEffect(() => {
-    if (posts.length === 0) return;
+    if (posts.length === 0 || isPaused) return;
 
-    // Initial 3-second delay before first popup
-    const initialTimeout = setTimeout(() => {
-      const popupInterval = setInterval(() => {
-        // Select a random post
-        const randomIndex = Math.floor(Math.random() * posts.length);
-        const randomPost = posts[randomIndex];
+    const sequenceController = {
+      displayedPosts: [...displayedPosts],
+      currentCycle: currentCycle,
+      
+      getNextPost: () => {
+        const availablePosts = posts.filter(post => !displayedPosts.includes(post.id));
         
-        // Show the popup
-        setSelectedPost(randomPost);
-        
-        // Hide after 10 seconds
-        const hideTimeout = setTimeout(() => {
-          setSelectedPost(null);
-        }, 10000); // 10 seconds
-        
-        return () => clearTimeout(hideTimeout);
-      }, 5000); // 5 seconds between popups
+        if (availablePosts.length > 0) {
+          // Initial cycle - show undisplayed posts first
+          const randomPost = availablePosts[Math.floor(Math.random() * availablePosts.length)];
+          return randomPost;
+        } else {
+          // All posts displayed - switch to randomized cycle
+          if (currentCycle !== 'randomized') {
+            setCurrentCycle('randomized');
+            setDisplayedPosts([]); // Reset for randomized cycle
+          }
+          const randomPost = posts[Math.floor(Math.random() * posts.length)];
+          return randomPost;
+        }
+      },
+      
+      markAsDisplayed: (postId) => {
+        if (!displayedPosts.includes(postId)) {
+          setDisplayedPosts(prev => [...prev, postId]);
+        }
+      }
+    };
 
-      return () => clearInterval(popupInterval);
-    }, 3000); // 3 second initial delay
+    // Auto-Display Cycle with smooth transitions
+    const showNextPopup = () => {
+      if (isPaused) return;
+      
+      const nextPost = sequenceController.getNextPost();
+      if (nextPost) {
+        // Fade in effect
+        setSelectedPost(nextPost);
+        sequenceController.markAsDisplayed(nextPost.id);
+        
+        // Auto-close after 10 seconds
+        setTimeout(() => {
+          if (!isPaused) {
+            setSelectedPost(null);
+            
+            // Wait 5 seconds gap then show next
+            setTimeout(() => {
+              if (!isPaused) {
+                showNextPopup();
+              }
+            }, 5000); // 5-second gap
+          }
+        }, 10000); // 10-second display
+      }
+    };
 
-    return () => clearTimeout(initialTimeout);
-  }, [posts]);
+    // Start slideshow after 3 seconds
+    const startTimeout = setTimeout(() => {
+      showNextPopup();
+    }, 3000); // 3-second initial delay
+
+    return () => clearTimeout(startTimeout);
+  }, [posts, isPaused, displayedPosts, currentCycle]);
+
+  // User interaction handled by existing handlePostClick function
 
   const loadInitialPosts = async () => {
     try {
@@ -97,11 +140,13 @@ function App() {
   const filteredPosts = posts;
 
   const handlePostClick = (post) => {
+    setIsPaused(true);
     setSelectedPost(post);
   };
 
   const handleCloseModal = () => {
     setSelectedPost(null);
+    setIsPaused(false);
   };
 
   const handlePauseToggle = () => {
@@ -146,6 +191,7 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
             className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-0"
             onClick={handleCloseModal}
           >
@@ -153,6 +199,7 @@ function App() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
               className="bg-gray-900 rounded-xl max-w-7xl w-full max-h-[98vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
