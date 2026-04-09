@@ -25,8 +25,8 @@
 
 @layer components {
   .social-card {
-    @apply bg-white shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-3xl;
-    border: 1px solid #e5e7eb;
+    @apply bg-gray-900 shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-3xl;
+    border: 1px solid #374151;
     margin: 0;
     padding: 0;
     border-collapse: collapse;
@@ -54,7 +54,7 @@
   }
   
   .social-header {
-    @apply flex items-center p-4 border-b border-gray-100;
+    @apply flex items-center p-4 border-b border-gray-700;
   }
   
   .social-avatar {
@@ -66,11 +66,11 @@
   }
   
   .social-username {
-    @apply font-semibold text-gray-900 text-sm;
+    @apply font-semibold text-white text-sm;
   }
   
   .social-platform {
-    @apply text-xs text-gray-500;
+    @apply text-xs text-gray-400;
   }
   
   .social-content {
@@ -78,7 +78,7 @@
   }
   
   .social-text {
-    @apply text-gray-800 text-sm leading-relaxed mb-3;
+    @apply text-gray-200 text-sm leading-relaxed mb-3;
   }
   
   .social-image {
@@ -97,19 +97,19 @@
   }
   
   .social-footer {
-    @apply flex items-center justify-between p-4 border-t border-gray-100;
+    @apply flex items-center justify-between p-4 border-t border-gray-700;
   }
   
   .social-stats {
-    @apply flex items-center space-x-4 text-xs text-gray-500;
+    @apply flex items-center space-x-4 text-xs text-gray-400;
   }
   
   .social-action {
-    @apply flex items-center space-x-1 text-gray-600 hover:text-red-500 transition-colors duration-200;
+    @apply flex items-center space-x-1 text-gray-400 hover:text-red-500 transition-colors duration-200;
   }
   
   .loading-skeleton {
-    @apply animate-pulse bg-gray-200 rounded;
+    @apply animate-pulse bg-gray-700 rounded;
   }
   
   .masonry-grid {

@@ -61,9 +61,9 @@ const loadScrapedPosts = async () => {
           const post = {
             id: uuidv4(),
             platform: 'instagram', // Default platform
-            username: 'Social User', // Default username
+            username: 'conquestbits', // Updated username
             content: content.trim(),
-            avatar: `https://picsum.photos/seed/${basename}/100/100.jpg`,
+            avatar: '/scraped_images/conquest-logo.png', // Conquest logo (will need to add this)
             image: imagePath,
             likes: Math.floor(Math.random() * 1000) + 10,
             comments: Math.floor(Math.random() * 100) + 1,

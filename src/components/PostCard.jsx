@@ -91,12 +91,12 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
             <span className={`social-platform ${getPlatformColor(post.platform)}`}>
               {getPlatformIcon(post.platform)}
             </span>
-            <span className="text-xs text-gray-500">{formatTime(post.timestamp)}</span>
+            <span className="text-xs text-gray-400">{formatTime(post.timestamp)}</span>
           </div>
         </div>
         {layout !== 'list' && (
           <motion.button
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-200"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
