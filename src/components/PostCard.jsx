@@ -7,13 +7,29 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  // Auto-popup functionality - trigger popup every 5 seconds
+  // Auto-popup functionality - randomized tiles with 10-second display and 5-second gaps
   useEffect(() => {
-    const popupInterval = setInterval(() => {
-      onClick(post);
-    }, 5000); // 5 seconds
+    // Random delay between 0-25 seconds to stagger initial popups
+    const initialDelay = Math.random() * 25000;
+    
+    const popupTimeout = setTimeout(() => {
+      const showPopup = () => {
+        onClick(post);
+        
+        // Schedule next popup after 10 seconds display + 5 seconds gap
+        const nextPopup = setTimeout(() => {
+          showPopup();
+        }, 15000); // 10 seconds display + 5 seconds gap = 15 seconds total
+        
+        return nextPopup;
+      };
+      
+      return showPopup();
+    }, initialDelay);
 
-    return () => clearInterval(popupInterval);
+    return () => {
+      clearTimeout(popupTimeout);
+    };
   }, [post, onClick]);
 
   const handleLike = () => {
