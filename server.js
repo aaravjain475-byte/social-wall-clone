@@ -63,7 +63,7 @@ const loadScrapedPosts = async () => {
             platform: 'instagram', // Default platform
             username: 'conquest', // Updated username
             content: content.trim(),
-            avatar: '/scraped_images/conquest-logo.png', // Conquest logo
+            avatar: '/scraped_images/conquest_logo.png', // Conquest logo
             image: imagePath,
             likes: Math.floor(Math.random() * 1000) + 10,
             comments: Math.floor(Math.random() * 100) + 1,
@@ -131,7 +131,7 @@ const generateMockPosts = (count = 20) => {
       platform,
       username: 'conquest', // Use conquest for all mock posts
       content,
-      avatar: '/scraped_images/conquest-logo.png', // Conquest logo
+      avatar: '/scraped_images/conquest_logo.png', // Conquest logo
       image: hasImage ? `https://picsum.photos/seed/post-${i}/400/${200 + Math.floor(Math.random() * 200)}.jpg` : null,
       likes: Math.floor(Math.random() * 1000) + 10,
       comments: Math.floor(Math.random() * 100) + 1,
