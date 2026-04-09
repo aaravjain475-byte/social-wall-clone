@@ -61,9 +61,9 @@ const loadScrapedPosts = async () => {
           const post = {
             id: uuidv4(),
             platform: 'instagram', // Default platform
-            username: 'conquestbits', // Updated username
+            username: 'conquest', // Updated username
             content: content.trim(),
-            avatar: `https://picsum.photos/seed/conquestbits/100/100.jpg`, // Temporary placeholder
+            avatar: `https://picsum.photos/seed/conquest/100/100.jpg`, // Temporary placeholder
             image: imagePath,
             likes: Math.floor(Math.random() * 1000) + 10,
             comments: Math.floor(Math.random() * 100) + 1,
@@ -129,9 +129,9 @@ const generateMockPosts = (count = 20) => {
     const newPost = {
       id: uuidv4(),
       platform,
-      username,
+      username: 'conquest', // Use conquest for all mock posts
       content,
-      avatar: `https://picsum.photos/seed/${username}-${i}/100/100.jpg`,
+      avatar: `https://picsum.photos/seed/conquest-${i}/100/100.jpg`,
       image: hasImage ? `https://picsum.photos/seed/post-${i}/400/${200 + Math.floor(Math.random() * 200)}.jpg` : null,
       likes: Math.floor(Math.random() * 1000) + 10,
       comments: Math.floor(Math.random() * 100) + 1,
