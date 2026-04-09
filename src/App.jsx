@@ -192,14 +192,23 @@ const PostModal = ({ post, onClose }) => {
       setNeedsScroll(scrollHeight > clientHeight);
     }
     
-    // Restart video when modal opens (after fade-in completes)
+    // Ensure video plays from beginning when modal opens
     if (post.mediaType === 'video' && videoRef.current) {
-      setTimeout(() => {
-        if (videoRef.current) {
-          videoRef.current.currentTime = 0;
-          videoRef.current.play();
-        }
-      }, 1500); // Wait for fade-in to complete
+      const video = videoRef.current;
+      video.currentTime = 0;
+      
+      // Ensure video plays and loops through entire duration
+      const playVideo = () => {
+        video.play().catch(e => {
+          console.log('Video play failed:', e);
+        });
+      };
+      
+      // Try to play immediately
+      playVideo();
+      
+      // Also try after a short delay to ensure it's ready
+      setTimeout(playVideo, 100);
     }
   }, [post]);
 
@@ -226,10 +235,12 @@ const PostModal = ({ post, onClose }) => {
                 src={post.image}
                 alt="Post video"
                 className="w-full h-full object-contain"
+                style={{ maxHeight: '100%', width: 'auto' }}
                 autoPlay
                 loop
                 muted
                 playsInline
+                controls={false}
               />
             ) : (
               <img
