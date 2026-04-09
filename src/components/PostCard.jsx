@@ -120,13 +120,6 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
               src={post.image}
               alt="Post image"
               className={`${layout === 'list' ? 'w-full h-full' : 'social-image'}`}
-              style={{
-                width: '424px',
-                height: '530px',
-                maxWidth: 'none',
-                maxHeight: 'none',
-                objectFit: 'contain'
-              }}
               onClick={handleImageClick}
               onError={() => setImageError(true)}
             />
