@@ -183,7 +183,13 @@ const PostModal = ({ post, onClose }) => {
             <img
               src={post.image}
               alt="Post image"
-              className="w-full h-full object-cover"
+              className={post.imageWidth && post.imageHeight ? "object-cover" : "w-full h-full object-cover"}
+              style={post.imageWidth && post.imageHeight ? {
+                width: `${post.imageWidth}px`,
+                height: `${post.imageHeight}px`,
+                maxWidth: 'none',
+                maxHeight: 'none'
+              } : {}}
             />
           ) : (
             <div className="text-gray-400 text-center">
