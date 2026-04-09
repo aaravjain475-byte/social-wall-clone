@@ -115,7 +115,7 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
 
         {/* Image */}
         {post.image && !imageError && (
-          <div className={`${layout === 'list' ? 'w-48 h-48 ml-4' : ''} relative`}>
+          <div className={`${layout === 'list' ? 'w-48 h-48 ml-4' : ''} relative flex items-center justify-center`}>
             <img
               src={post.image}
               alt="Post image"
@@ -125,7 +125,7 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
                 height: '530px',
                 maxWidth: 'none',
                 maxHeight: 'none',
-                objectFit: 'cover'
+                objectFit: 'contain'
               }}
               onClick={handleImageClick}
               onError={() => setImageError(true)}
