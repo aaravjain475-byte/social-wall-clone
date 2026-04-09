@@ -148,7 +148,7 @@ function App() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white rounded-xl max-w-7xl w-full max-h-[98vh] overflow-y-auto"
+              className="bg-gray-900 rounded-xl max-w-7xl w-full max-h-[98vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <PostModal post={selectedPost} onClose={handleCloseModal} />
@@ -190,7 +190,7 @@ const PostModal = ({ post, onClose }) => {
       {/* Split Layout - Left Image, Right Content */}
       <div className="flex" style={{ height: '800px' }}>
         {/* Left Side - Image */}
-        <div className="flex-1 bg-gray-100 p-0 flex items-center justify-center">
+        <div className="flex-1 bg-gray-800 p-0 flex items-center justify-center">
           {post.image ? (
             <img
               src={post.image}
@@ -205,7 +205,7 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="flex-1 bg-white p-4 flex flex-col" style={{ height: '800px' }}>
+        <div className="flex-1 bg-gray-900 p-4 flex flex-col" style={{ height: '800px' }}>
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
@@ -214,10 +214,10 @@ const PostModal = ({ post, onClose }) => {
               className="w-12 h-12 rounded-full object-cover mr-3"
             />
             <div>
-              <h3 className="font-semibold text-gray-900 text-xl">{post.username}</h3>
+              <h3 className="font-semibold text-white text-xl">{post.username}</h3>
               <div className="flex items-center space-x-2">
-                <span className="text-base text-gray-500">{post.platform}</span>
-                <span className="text-base text-gray-500">
+                <span className="text-base text-gray-400">{post.platform}</span>
+                <span className="text-base text-gray-400">
                   {new Date(post.timestamp).toLocaleDateString()}
                 </span>
               </div>
@@ -234,7 +234,7 @@ const PostModal = ({ post, onClose }) => {
                 animation: needsScroll ? 'scroll 20s linear infinite' : 'none'
               }}
             >
-              <p className="text-gray-800 text-lg leading-relaxed whitespace-pre-wrap">
+              <p className="text-gray-200 text-lg leading-relaxed whitespace-pre-wrap">
                 {post.content}
               </p>
             </div>
