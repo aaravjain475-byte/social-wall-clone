@@ -176,14 +176,15 @@ const PostModal = ({ post, onClose }) => {
       </button>
 
       {/* Split Layout - Left Image, Right Content */}
-      <div className="flex">
+      <div className="flex" style={{ height: '600px' }}>
         {/* Left Side - Image */}
-        <div className="flex-1 h-full bg-gray-100 flex items-center justify-center p-0">
+        <div className="flex-1 bg-gray-100 p-0">
           {post.image ? (
             <img
               src={post.image}
               alt="Post image"
               className="w-full h-full object-cover"
+              style={{ minHeight: '600px' }}
             />
           ) : (
             <div className="text-gray-400 text-center">
