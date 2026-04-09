@@ -176,18 +176,18 @@ const PostModal = ({ post, onClose }) => {
     }
   }, [post]);
 
-  // Calculate dynamic dimensions based on text content with minimal padding
+  // Calculate dynamic dimensions based on text content with no padding
   const calculateDynamicDimensions = () => {
     if (contentRef.current) {
       const scrollWidth = contentRef.current.scrollWidth;
       const scrollHeight = contentRef.current.scrollHeight;
-      const headerHeight = 60; // Approximate header height
-      const padding = 24; // Minimal padding (p-3 = 12px * 2)
-      const effectiveWidth = Math.min(Math.max(scrollWidth + padding + 10, 250), 350); // Min 250px, max 350px
-      const effectiveHeight = Math.min(Math.max(scrollHeight + headerHeight + padding, 150), 500); // Min 150px, max 500px
+      const headerHeight = 50; // Minimal header height
+      const padding = 8; // No padding (p-0 = 0px * 2)
+      const effectiveWidth = Math.min(Math.max(scrollWidth + padding + 5, 200), 300); // Min 200px, max 300px
+      const effectiveHeight = Math.min(Math.max(scrollHeight + headerHeight + padding, 120), 400); // Min 120px, max 400px
       return { width: effectiveWidth, height: effectiveHeight };
     }
-    return { width: 300, height: 400 }; // Fallback dimensions
+    return { width: 250, height: 300 }; // Fallback dimensions
   };
 
   const dynamicDimensions = calculateDynamicDimensions();
@@ -222,19 +222,19 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="bg-white p-3 flex flex-col" style={{ width: `${dynamicDimensions.width}px`, height: `${dynamicDimensions.height}px` }}>
+        <div className="bg-white p-0 flex flex-col" style={{ width: `${dynamicDimensions.width}px`, height: `${dynamicDimensions.height}px` }}>
           {/* Header */}
-          <div className="flex items-center mb-4">
+          <div className="flex items-center mb-2">
             <img
               src={post.avatar}
               alt={post.username}
-              className="w-12 h-12 rounded-full object-cover mr-3"
+              className="w-10 h-10 rounded-full object-cover mr-2"
             />
             <div>
-              <h3 className="font-semibold text-gray-900 text-lg">{post.username}</h3>
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-500">{post.platform}</span>
-                <span className="text-sm text-gray-500">
+              <h3 className="font-semibold text-gray-900 text-sm">{post.username}</h3>
+              <div className="flex items-center space-x-1">
+                <span className="text-xs text-gray-500">{post.platform}</span>
+                <span className="text-xs text-gray-500">
                   {new Date(post.timestamp).toLocaleDateString()}
                 </span>
               </div>
