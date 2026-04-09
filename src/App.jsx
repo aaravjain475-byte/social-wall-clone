@@ -196,10 +196,9 @@ const PostModal = ({ post, onClose }) => {
             <img
               src={post.image}
               alt="Post image"
-              className="w-full object-cover"
+              className="w-full h-full object-cover"
               style={{ 
-                height: contentHeight > 550 ? contentHeight + 'px' : '550px',
-                minHeight: '550px'
+                height: '700px'
               }}
             />
           ) : (
