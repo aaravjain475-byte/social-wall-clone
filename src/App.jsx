@@ -196,7 +196,7 @@ const PostModal = ({ post, onClose }) => {
               <video
                 src={post.image}
                 alt="Post video"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 autoPlay
                 loop
                 muted
@@ -206,7 +206,7 @@ const PostModal = ({ post, onClose }) => {
               <img
                 src={post.image}
                 alt="Post image"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             )
           ) : (
