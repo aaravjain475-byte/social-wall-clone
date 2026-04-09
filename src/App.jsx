@@ -89,6 +89,7 @@ function App() {
   }, [posts, isPaused, displayedPosts, currentCycle]);
 
   // User interaction handled by existing handlePostClick function
+  // Note: Modal system disabled - using tile-based popups instead
 
   const loadInitialPosts = async () => {
     try {
@@ -184,8 +185,8 @@ function App() {
         </AnimatePresence>
       </main>
 
-      {/* Post Modal */}
-      <AnimatePresence>
+      {/* Post Modal - Disabled for tile-based popup system */}
+      {/* <AnimatePresence>
         {selectedPost && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -207,7 +208,7 @@ function App() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </div>
   );
 }

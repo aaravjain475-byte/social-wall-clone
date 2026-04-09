@@ -6,6 +6,31 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isPoppedUp, setIsPoppedUp] = useState(false);
+
+  // Individual tile popup system - 20s display + 8s gap between tiles
+  useEffect(() => {
+    // Calculate unique delay based on post ID to prevent simultaneous popups
+    const postIndex = parseInt(post.id) || 0;
+    const uniqueDelay = (postIndex * 28000) + 3000; // 28s per tile (20s+8s) + 3s initial
+    
+    const popupTimeout = setTimeout(() => {
+      const cyclePopup = () => {
+        setIsPoppedUp(true);
+        
+        // Keep popped up for 20 seconds
+        setTimeout(() => {
+          setIsPoppedUp(false);
+          
+          // Wait 8 seconds gap before next popup (handled by individual tile delays)
+        }, 20000);
+      };
+      
+      cyclePopup();
+    }, uniqueDelay);
+
+    return () => clearTimeout(popupTimeout);
+  }, [post.id]);
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -68,12 +93,29 @@ const PostCard = ({ post, layout = 'masonry', onClick }) => {
     <motion.div
       className={`social-card ${layout === 'list' ? 'flex-row' : layout === 'uniform' ? 'uniform-card' : ''}`}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={{ 
+        opacity: 1, 
+        y: 0,
+        scale: isPoppedUp ? 1.1 : 1,
+        zIndex: isPoppedUp ? 50 : 1
+      }}
       exit={{ opacity: 0, scale: 0.8 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      transition={{ 
+        duration: isPoppedUp ? 1.5 : 0.5,
+        scale: { duration: 1.5, ease: "easeInOut" }
+      }}
+      whileHover={{ scale: isPoppedUp ? 1.1 : 1.02 }}
+      whileTap={{ scale: isPoppedUp ? 1.1 : 0.98 }}
       onClick={onClick}
+      style={{
+        position: isPoppedUp ? 'fixed' : 'relative',
+        top: isPoppedUp ? '50%' : 'auto',
+        left: isPoppedUp ? '50%' : 'auto',
+        transform: isPoppedUp ? 'translate(-50%, -50%)' : 'none',
+        width: isPoppedUp ? '80%' : 'auto',
+        maxWidth: isPoppedUp ? '800px' : 'none',
+        boxShadow: isPoppedUp ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)' : 'none'
+      }}
     >
       {/* Header */}
       <div className={`${layout === 'list' ? 'flex-1' : ''} social-header`}>
