@@ -21,72 +21,36 @@ function App() {
     loadInitialPosts();
   }, []);
 
-  // Sequence Controller - Auto-Slideshow System
+  // Auto-popup functionality - 10s display + 8s gaps
   useEffect(() => {
-    if (posts.length === 0 || isPaused) return;
+    if (posts.length === 0) return;
 
-    const sequenceController = {
-      displayedPosts: [...displayedPosts],
-      currentCycle: currentCycle,
-      
-      getNextPost: () => {
-        const availablePosts = posts.filter(post => !displayedPosts.includes(post.id));
-        
-        if (availablePosts.length > 0) {
-          // Initial cycle - show undisplayed posts first
-          const randomPost = availablePosts[Math.floor(Math.random() * availablePosts.length)];
-          return randomPost;
-        } else {
-          // All posts displayed - switch to randomized cycle
-          if (currentCycle !== 'randomized') {
-            setCurrentCycle('randomized');
-            setDisplayedPosts([]); // Reset for randomized cycle
-          }
-          const randomPost = posts[Math.floor(Math.random() * posts.length)];
-          return randomPost;
-        }
-      },
-      
-      markAsDisplayed: (postId) => {
-        if (!displayedPosts.includes(postId)) {
-          setDisplayedPosts(prev => [...prev, postId]);
-        }
-      }
-    };
-
-    // Auto-Display Cycle with cinematic transitions
     const showNextPopup = () => {
-      if (isPaused) return;
+      // Select random post
+      const randomIndex = Math.floor(Math.random() * posts.length);
+      const randomPost = posts[randomIndex];
       
-      const nextPost = sequenceController.getNextPost();
-      if (nextPost) {
-        // Fade in effect - cinematic transition
-        setSelectedPost(nextPost);
-        sequenceController.markAsDisplayed(nextPost.id);
+      // Show the popup
+      setSelectedPost(randomPost);
+      
+      // Hide after 10 seconds
+      setTimeout(() => {
+        setSelectedPost(null);
         
-        // Auto-close after 20 seconds
+        // Wait 8 seconds then show next
         setTimeout(() => {
-          if (!isPaused) {
-            setSelectedPost(null);
-            
-            // Wait 8 seconds gap then show next
-            setTimeout(() => {
-              if (!isPaused) {
-                showNextPopup();
-              }
-            }, 8000); // 8-second gap
-          }
-        }, 20000); // 20-second display
-      }
+          showNextPopup();
+        }, 8000); // 8-second gap
+      }, 10000); // 10-second display
     };
 
-    // Start slideshow after 3 seconds
+    // Start after 3 seconds
     const startTimeout = setTimeout(() => {
       showNextPopup();
-    }, 3000); // 3-second initial delay
+    }, 3000);
 
     return () => clearTimeout(startTimeout);
-  }, [posts, isPaused, displayedPosts, currentCycle]);
+  }, [posts]);
 
   // User interaction handled by existing handlePostClick function
   // Note: Modal system disabled - using tile-based popups instead
@@ -185,14 +149,14 @@ function App() {
         </AnimatePresence>
       </main>
 
-      {/* Post Modal - Disabled for tile-based popup system */}
-      {/* <AnimatePresence>
+      {/* Post Modal */}
+      <AnimatePresence>
         {selectedPost && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
             className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-0"
             onClick={handleCloseModal}
           >
@@ -200,7 +164,7 @@ function App() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
               className="bg-gray-900 rounded-xl max-w-7xl w-full max-h-[98vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
@@ -208,7 +172,7 @@ function App() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence> */}
+      </AnimatePresence>
     </div>
   );
 }
