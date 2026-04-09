@@ -191,12 +191,13 @@ const PostModal = ({ post, onClose }) => {
       {/* Split Layout - Left Image, Right Content */}
       <div className="flex" style={{ height: '800px' }}>
         {/* Left Side - Image */}
-        <div className="flex-1 bg-gray-100 p-0">
+        <div className="flex-1 bg-gray-100 p-0 flex items-center justify-center">
           {post.image ? (
             <img
               src={post.image}
               alt="Post image"
-              className="w-full h-full object-contain"
+              className="w-full object-contain"
+              style={{ height: '800px' }}
             />
           ) : (
             <div className="text-gray-400 text-center">
