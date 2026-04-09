@@ -176,9 +176,9 @@ const PostModal = ({ post, onClose }) => {
     }
   }, [post]);
 
-  // Calculate image dimensions based on 4:5 ratio and content height
+  // Calculate image dimensions based on 4:5 ratio and balanced layout
   const calculateImageDimensions = () => {
-    const effectiveHeight = needsScroll ? contentHeight : 550;
+    const effectiveHeight = needsScroll ? Math.min(contentHeight, 600) : 500;
     const imageHeight = Math.max(effectiveHeight, 400); // Minimum 400px
     const imageWidth = (imageHeight * 4) / 5; // 4:5 ratio
     return { width: imageWidth, height: imageHeight };
@@ -216,7 +216,7 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="w-[450px] bg-white p-7 flex flex-col" style={{ height: `${imageDimensions.height}px` }}>
+        <div className="w-[400px] bg-white p-6 flex flex-col" style={{ height: `${imageDimensions.height}px` }}>
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
