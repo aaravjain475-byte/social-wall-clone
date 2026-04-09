@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 // ConquestBits Instagram posts content
 const conquestBitsPosts = [
   {
+    content: "Check out our latest post! https://www.instagram.com/p/DW5obaekbz0/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA== #conquestbits #latest #instagram",
+    image: "https://picsum.photos/seed/conquestbits-special/400/500.jpg"
+  },
+  {
     content: "Excited to announce our latest feature update! Now you can track your progress in real-time with our new dashboard. What do you think? #conquestbits #update #feature",
     image: "https://picsum.photos/seed/conquestbits1/400/500.jpg"
   },
