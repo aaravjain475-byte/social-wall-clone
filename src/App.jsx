@@ -23,23 +23,28 @@ function App() {
   useEffect(() => {
     if (posts.length === 0) return;
 
-    const popupInterval = setInterval(() => {
-      // Select a random post
-      const randomIndex = Math.floor(Math.random() * posts.length);
-      const randomPost = posts[randomIndex];
-      
-      // Show the popup
-      setSelectedPost(randomPost);
-      
-      // Hide after 10 seconds
-      const hideTimeout = setTimeout(() => {
-        setSelectedPost(null);
-      }, 10000); // 10 seconds
-      
-      return () => clearTimeout(hideTimeout);
-    }, 15000); // 10 seconds display + 5 seconds delay = 15 seconds total cycle
+    // Initial 3-second delay before first popup
+    const initialTimeout = setTimeout(() => {
+      const popupInterval = setInterval(() => {
+        // Select a random post
+        const randomIndex = Math.floor(Math.random() * posts.length);
+        const randomPost = posts[randomIndex];
+        
+        // Show the popup
+        setSelectedPost(randomPost);
+        
+        // Hide after 10 seconds
+        const hideTimeout = setTimeout(() => {
+          setSelectedPost(null);
+        }, 10000); // 10 seconds
+        
+        return () => clearTimeout(hideTimeout);
+      }, 5000); // 5 seconds between popups
 
-    return () => clearInterval(popupInterval);
+      return () => clearInterval(popupInterval);
+    }, 3000); // 3 second initial delay
+
+    return () => clearTimeout(initialTimeout);
   }, [posts]);
 
   const loadInitialPosts = async () => {
