@@ -176,9 +176,9 @@ const PostModal = ({ post, onClose }) => {
       </button>
 
       {/* Split Layout - Left Image, Right Content */}
-      <div className="flex h-96">
+      <div className="flex">
         {/* Left Side - Image */}
-        <div className="flex-1 h-full bg-gray-100 flex items-center justify-center">
+        <div className="flex-1 bg-gray-100 flex items-center justify-center p-4">
           {post.image ? (
             <img
               src={post.image}
