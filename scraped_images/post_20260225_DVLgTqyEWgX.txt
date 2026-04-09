@@ -1,7 +1,0 @@
-The AI race just got messy.
-
-Anthropic has accused DeepSeek AI of generating millions of Claude interactions and potentially using those outputs to improve its own models. There’s no stolen code, just large-scale querying.
-
-If AI can be replicated by studying its responses, what does “ownership” even mean?
-
-#Anthropic #Deepseek #ConquestForStartups
