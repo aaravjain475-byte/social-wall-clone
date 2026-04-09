@@ -21,7 +21,7 @@ function App() {
     loadInitialPosts();
   }, []);
 
-  // Auto-popup functionality - play video for entire duration, no gaps
+  // Auto-popup functionality - play video for entire duration with gaps
   useEffect(() => {
     if (posts.length === 0) return;
 
@@ -45,10 +45,14 @@ function App() {
           const videoDuration = video.duration * 1000; // Convert to milliseconds
           displayTime = videoDuration; // Use full video duration
           
-          // Hide after video duration and immediately start next
+          // Hide after video duration
           setTimeout(() => {
             setSelectedPost(null);
-            showNextPopup(); // Start next immediately
+            
+            // Wait 8 seconds then show next
+            setTimeout(() => {
+              showNextPopup();
+            }, 8000); // 8-second gap
           }, displayTime);
         });
         
@@ -57,7 +61,11 @@ function App() {
         // For images, use 10 seconds
         setTimeout(() => {
           setSelectedPost(null);
-          showNextPopup(); // Start next immediately
+          
+          // Wait 8 seconds then show next
+          setTimeout(() => {
+            showNextPopup();
+          }, 8000); // 8-second gap
         }, displayTime);
       }
     };
