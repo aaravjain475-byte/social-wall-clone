@@ -54,29 +54,29 @@ function App() {
       }
     };
 
-    // Auto-Display Cycle with smooth transitions
+    // Auto-Display Cycle with cinematic transitions
     const showNextPopup = () => {
       if (isPaused) return;
       
       const nextPost = sequenceController.getNextPost();
       if (nextPost) {
-        // Fade in effect
+        // Fade in effect - cinematic transition
         setSelectedPost(nextPost);
         sequenceController.markAsDisplayed(nextPost.id);
         
-        // Auto-close after 10 seconds
+        // Auto-close after 20 seconds
         setTimeout(() => {
           if (!isPaused) {
             setSelectedPost(null);
             
-            // Wait 5 seconds gap then show next
+            // Wait 8 seconds gap then show next
             setTimeout(() => {
               if (!isPaused) {
                 showNextPopup();
               }
-            }, 5000); // 5-second gap
+            }, 8000); // 8-second gap
           }
-        }, 10000); // 10-second display
+        }, 20000); // 20-second display
       }
     };
 
@@ -191,7 +191,7 @@ function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
             className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-0"
             onClick={handleCloseModal}
           >
@@ -199,7 +199,7 @@ function App() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
               className="bg-gray-900 rounded-xl max-w-7xl w-full max-h-[98vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
@@ -217,6 +217,7 @@ const PostModal = ({ post, onClose }) => {
   const [contentHeight, setContentHeight] = useState(0);
   const [needsScroll, setNeedsScroll] = useState(false);
   const contentRef = useRef(null);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -224,6 +225,16 @@ const PostModal = ({ post, onClose }) => {
       const clientHeight = contentRef.current.clientHeight;
       setContentHeight(scrollHeight);
       setNeedsScroll(scrollHeight > clientHeight);
+    }
+    
+    // Restart video when modal opens (after fade-in completes)
+    if (post.mediaType === 'video' && videoRef.current) {
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = 0;
+          videoRef.current.play();
+        }
+      }, 1500); // Wait for fade-in to complete
     }
   }, [post]);
 
@@ -246,6 +257,7 @@ const PostModal = ({ post, onClose }) => {
           {post.image ? (
             post.mediaType === 'video' ? (
               <video
+                ref={videoRef}
                 src={post.image}
                 alt="Post video"
                 className="w-full h-full object-contain"
