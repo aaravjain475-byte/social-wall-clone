@@ -164,11 +164,15 @@ function App() {
 // Post Modal Component - Simple split layout
 const PostModal = ({ post, onClose }) => {
   const [contentHeight, setContentHeight] = useState(0);
+  const [needsScroll, setNeedsScroll] = useState(false);
   const contentRef = useRef(null);
 
   useEffect(() => {
     if (contentRef.current) {
-      setContentHeight(contentRef.current.scrollHeight);
+      const scrollHeight = contentRef.current.scrollHeight;
+      const clientHeight = contentRef.current.clientHeight;
+      setContentHeight(scrollHeight);
+      setNeedsScroll(scrollHeight > clientHeight);
     }
   }, [post]);
 
@@ -225,33 +229,20 @@ const PostModal = ({ post, onClose }) => {
             </div>
           </div>
 
-          {/* Content with Auto-scroll */}
+          {/* Content with Conditional Auto-scroll */}
           <div className="flex-1 overflow-hidden">
             <div 
               ref={contentRef}
-              className="h-full overflow-y-auto"
+              className="h-full"
               style={{
-                animation: 'scroll 10s linear infinite'
+                overflow: 'hidden',
+                animation: needsScroll ? 'scroll 20s linear infinite' : 'none'
               }}
             >
               <p className="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
                 {post.content}
               </p>
             </div>
-          </div>
-
-          {/* Footer */}
-          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-            <div className="flex items-center space-x-4 text-xs text-gray-500">
-              <span>{post.likes} likes</span>
-              <span>{post.comments} comments</span>
-              <span>{post.shares} shares</span>
-            </div>
-            <button className="text-gray-600 hover:text-red-500 transition-colors duration-200">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-            </button>
           </div>
         </div>
       </div>
@@ -260,7 +251,7 @@ const PostModal = ({ post, onClose }) => {
       <style jsx>{`
         @keyframes scroll {
           0% { transform: translateY(0); }
-          100% { transform: translateY(-100%); }
+          100% { transform: translateY(-50%); }
         }
       `}</style>
     </div>
