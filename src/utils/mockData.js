@@ -131,8 +131,22 @@ const generateRandomPost = (index) => {
 export const generateMockPosts = (count = 20, startIndex = 0) => {
   const posts = [];
   
-  // Add ConquestBits posts
-  for (let i = 0; i < count; i++) {
+  // Always add the specific Instagram post first
+  posts.push({
+    id: uuidv4(),
+    username: 'conquestbits',
+    platform: 'Instagram',
+    content: "Check out our latest post! https://www.instagram.com/p/DW5obaekbz0/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA== #conquestbits #latest #instagram",
+    image: "https://picsum.photos/seed/conquestbits-special/400/500.jpg",
+    timestamp: new Date(Date.now() - 1000 * 60 * 0).toISOString(),
+    likes: Math.floor(Math.random() * 1000) + 100,
+    comments: Math.floor(Math.random() * 100) + 10,
+    shares: Math.floor(Math.random() * 50) + 5,
+    avatar: 'https://picsum.photos/seed/conquestbits/100/100.jpg'
+  });
+  
+  // Add remaining ConquestBits posts
+  for (let i = 1; i < count; i++) {
     const post = conquestBitsPosts[i % conquestBitsPosts.length];
     posts.push({
       id: uuidv4(),
