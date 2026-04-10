@@ -162,7 +162,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen" style={{ backgroundColor: '#111213' }}>
       <main 
         className="container mx-auto px-4 py-8 overflow-hidden" 
         ref={autoScrollRef}
