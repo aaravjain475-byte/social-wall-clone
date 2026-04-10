@@ -65,37 +65,43 @@
         .hidden {
             display: none;
         }
+        
+        .social-wall-container {
+            width: 100%;
+            height: 100vh;
+            background-color: #111213;
+        }
     </style>
 </head>
 <body>
     <div id="access-page" class="access-container">
-        <div class="lock-icon">🔒</div>
+        <div class="lock-icon">GitHub Pages</div>
         <h1 class="title">Conquest Social Wall</h1>
         <p class="subtitle">
-            This social wall is protected and only accessible through the secret URL.
-            Type the full URL in your browser to unlock access.
+            This social wall is hosted on GitHub Pages.
+            Access the live social wall through the deployment URL.
         </p>
         <div class="url-display">
-            https://www.conquestbits.org/social-wall
+            https://prathamthakkar701.github.io/conquest_v2/
         </div>
         <p class="subtitle">
-            <small>🚀 Powered by Conquest</small>
+            <small>Deployed on GitHub Pages</small>
         </p>
     </div>
     
     <div id="social-wall" class="hidden">
-        <!-- Social wall will be loaded here when accessed via correct URL -->
-        <script>
-            // Check if accessed via the correct URL
-            if (window.location.href === 'https://www.conquestbits.org/social-wall' || 
-                window.location.href.includes('conquestbits.org/social-wall')) {
-                document.getElementById('access-page').classList.add('hidden');
-                document.getElementById('social-wall').classList.remove('hidden');
-                
-                // Load the actual social wall
-                window.location.href = 'http://localhost:3000';
-            }
-        </script>
+        <div class="social-wall-container">
+            <div id="root"></div>
+            <script type="module" src="/src/main.jsx"></script>
+        </div>
     </div>
+    
+    <script>
+        // Check if this is the GitHub Pages URL
+        if (window.location.hostname === 'prathamthakkar701.github.io') {
+            document.getElementById('access-page').classList.add('hidden');
+            document.getElementById('social-wall').classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
