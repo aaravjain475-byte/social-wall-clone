@@ -25,59 +25,38 @@ function App() {
   // Auto-popup functionality - play video for entire duration with gaps
   useEffect(() => {
     if (posts.length === 0) return;
+    let isActive = true;
+    let timeoutId = null;
 
     const showNextPopup = () => {
-      // Select random post
-      const randomIndex = Math.floor(Math.random() * posts.length);
-      const randomPost = posts[randomIndex];
-      
-      // Show the popup
+      if (!isActive) return;
+      const randomIndex = Math.floor(Math.random() * allPosts.length);
+      const randomPost = allPosts.length > 0 ? allPosts[randomIndex] : posts[randomIndex];
       setSelectedPost(randomPost);
       
-      // Calculate display time based on media type
-      let displayTime = 10000; // Default 10 seconds for images
-      
       if (randomPost.mediaType === 'video') {
-        // For videos, we need to get the duration
-        const video = document.createElement('video');
-        video.src = randomPost.image;
-        
-        video.addEventListener('loadedmetadata', () => {
-          const videoDuration = video.duration * 1000; // Convert to milliseconds
-          displayTime = videoDuration; // Use full video duration
-          
-          // Hide after video duration
-          setTimeout(() => {
-            setSelectedPost(null);
-            
-            // Wait 8 seconds then show next
-            setTimeout(() => {
-              showNextPopup();
-            }, 8000); // 8-second gap
-          }, displayTime);
-        });
-        
-        video.load(); // Trigger metadata loading
+        const handleVideoEnded = () => {
+           if (!isActive) return;
+           setSelectedPost(null);
+           timeoutId = setTimeout(showNextPopup, 8000);
+        };
+        window.addEventListener('current-video-ended', handleVideoEnded, { once: true });
       } else {
-        // For images, use 10 seconds
-        setTimeout(() => {
+        timeoutId = setTimeout(() => {
+          if (!isActive) return;
           setSelectedPost(null);
-          
-          // Wait 8 seconds then show next
-          setTimeout(() => {
-            showNextPopup();
-          }, 8000); // 8-second gap
-        }, displayTime);
+          timeoutId = setTimeout(showNextPopup, 8000);
+        }, 10000);
       }
     };
 
-    // Start after 3 seconds
-    const startTimeout = setTimeout(() => {
-      showNextPopup();
-    }, 3000);
+    timeoutId = setTimeout(showNextPopup, 3000);
 
-    return () => clearTimeout(startTimeout);
-  }, [posts]);
+    return () => {
+      isActive = false;
+      clearTimeout(timeoutId);
+    };
+  }, [posts.length, allPosts.length]);
 
   // User interaction handled by existing handlePostClick function
   // Note: Modal system disabled - using tile-based popups instead
@@ -85,10 +64,11 @@ function App() {
   const loadInitialPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/posts');
+      const response = await fetch('/posts.json');
       const data = await response.json();
-      setAllPosts(data || []);
-      setPosts((data || []).slice(0, 20));
+      setAllPosts(data.posts || []);
+      const initial = (data.posts || []).slice(0, 20).map((p, i) => ({...p, uniqueId: p.id + '-init-' + i}));
+      setPosts(initial);
       setLoading(false);
     } catch (err) {
       setError('Failed to load posts');
@@ -96,14 +76,30 @@ function App() {
     }
   };
 
-  // Infinite scroll
+  // Infinite scroll (Cyclic)
   const loadMorePosts = async () => {
-    if (loading || isPaused || posts.length >= allPosts.length) return;
+    if (loading || isPaused || allPosts.length === 0) return;
     
     try {
       setLoading(true);
       setTimeout(() => {
-        setPosts(allPosts.slice(0, posts.length + 20));
+        setPosts(prev => {
+          const nextIndex = prev.length % allPosts.length;
+          let newChunk = [];
+          if (nextIndex + 20 <= allPosts.length) {
+            newChunk = allPosts.slice(nextIndex, nextIndex + 20);
+          } else {
+            newChunk = [
+              ...allPosts.slice(nextIndex),
+              ...allPosts.slice(0, 20 - (allPosts.length - nextIndex))
+            ];
+          }
+          const chunkWithUniqueIds = newChunk.map((p, i) => ({
+            ...p, 
+            uniqueId: p.id + '-' + (prev.length + i)
+          }));
+          return [...prev, ...chunkWithUniqueIds];
+        });
         setLoading(false);
       }, 300);
     } catch (err) {
@@ -142,6 +138,9 @@ function App() {
   const handleCloseModal = () => {
     setSelectedPost(null);
     setIsPaused(false);
+    // Unbind any dangling event listners in case closed manually
+    const dummyEvent = new Event('current-video-ended');
+    window.dispatchEvent(dummyEvent);
   };
 
   const handlePauseToggle = () => {
@@ -276,6 +275,7 @@ const PostModal = ({ post, onClose }) => {
                 muted
                 playsInline
                 controls={false}
+                onEnded={() => window.dispatchEvent(new Event('current-video-ended'))}
               />
             ) : (
               <img
@@ -346,7 +346,7 @@ const MasonryLayout = ({ posts, loading, lastElementRef, onPostClick, layout }) 
     <AnimatePresence>
       {posts.map((post, index) => (
         <motion.div
-          key={post.id}
+          key={post.uniqueId || post.id}
           ref={index === posts.length - 1 ? lastElementRef : null}
           className="masonry-item"
           initial={{ opacity: 0, y: 20 }}
