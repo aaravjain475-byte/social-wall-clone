@@ -26,11 +26,11 @@
 
 @layer components {
   .social-card {
-    @apply bg-gray-900 shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-3xl;
+    @apply shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-3xl;
+    background-color: #111213;
     border: 1px solid #374151;
-    margin: 0;
-    padding: 0;
-    border-collapse: collapse;
+    border-radius: 12px;
+    position: relative;
   }
 
   .masonry-grid {

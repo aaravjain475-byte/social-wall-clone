@@ -191,7 +191,8 @@ function App() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="bg-gray-900 rounded-xl max-w-7xl w-full max-h-[98vh] overflow-y-auto"
+              className="rounded-xl max-w-7xl w-full max-h-[98vh] overflow-y-auto"
+              style={{ backgroundColor: '#111213' }}
               onClick={(e) => e.stopPropagation()}
             >
               <PostModal post={selectedPost} onClose={handleCloseModal} />
@@ -253,7 +254,7 @@ const PostModal = ({ post, onClose }) => {
       {/* Split Layout - Left Image, Right Content */}
       <div className="flex" style={{ height: '800px' }}>
         {/* Left Side - Image or Video */}
-        <div className="flex-1 bg-gray-800 p-0 flex items-center justify-center">
+        <div className="flex-1 p-0 flex items-center justify-center" style={{ backgroundColor: '#111213' }}>
           {post.image ? (
             post.mediaType === 'video' ? (
               <video
@@ -283,7 +284,7 @@ const PostModal = ({ post, onClose }) => {
         </div>
 
         {/* Right Side - Content */}
-        <div className="flex-1 bg-gray-900 p-4 flex flex-col" style={{ height: '800px' }}>
+        <div className="flex-1 p-4 flex flex-col" style={{ backgroundColor: '#111213', height: '800px' }}>
           {/* Header */}
           <div className="flex items-center mb-4">
             <img
