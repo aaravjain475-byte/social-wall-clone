@@ -28,8 +28,8 @@
   .social-card {
     @apply shadow-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-3xl;
     background-color: #111213;
-    border: 1px solid #374151;
-    border-radius: 12px;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
     position: relative;
   }
 

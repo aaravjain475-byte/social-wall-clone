@@ -191,8 +191,12 @@ function App() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="rounded-xl max-w-7xl w-full max-h-[98vh] overflow-y-auto"
-              style={{ backgroundColor: '#111213' }}
+              className="max-w-7xl w-full max-h-[98vh] overflow-y-auto"
+              style={{ 
+                backgroundColor: '#111213',
+                border: '1px solid #2a2a2a',
+                borderRadius: '16px'
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               <PostModal post={selectedPost} onClose={handleCloseModal} />
