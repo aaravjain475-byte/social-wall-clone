@@ -1,28 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Social Walls - Display Live Social Feeds Anywhere!" />
-    <meta http-equiv="Cache-Control" content="max-age=31536000">
-    <title>Live Social Media Wall</title>
-    <link rel="preconnect" href="https://cloud.taggbox.com" />
-    <link rel="preconnect" href="https://test.taggbox.com" />
-    <link rel="preconnect" href="https://cdn.taggbox.com" />
-    <link rel="manifest" href="/manifest.json" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conquest Social Wall</title>
     <style>
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background: #000;
-            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #111213;
+            color: white;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .access-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+        }
+        
+        .lock-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .url-display {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: #60a5fa;
+            margin-bottom: 2rem;
+        }
+        
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div id="access-page" class="access-container">
+        <div class="lock-icon">🔒</div>
+        <h1 class="title">Conquest Social Wall</h1>
+        <p class="subtitle">
+            This social wall is protected and only accessible through the secret URL.
+            Type the full URL in your browser to unlock access.
+        </p>
+        <div class="url-display">
+            https://www.conquestbits.org/social-wall
+        </div>
+        <p class="subtitle">
+            <small>🚀 Powered by Conquest</small>
+        </p>
+    </div>
+    
+    <div id="social-wall" class="hidden">
+        <!-- Social wall will be loaded here when accessed via correct URL -->
+        <script>
+            // Check if accessed via the correct URL
+            if (window.location.href === 'https://www.conquestbits.org/social-wall' || 
+                window.location.href.includes('conquestbits.org/social-wall')) {
+                document.getElementById('access-page').classList.add('hidden');
+                document.getElementById('social-wall').classList.remove('hidden');
+                
+                // Load the actual social wall
+                window.location.href = 'http://localhost:3000';
+            }
+        </script>
+    </div>
 </body>
 </html>
