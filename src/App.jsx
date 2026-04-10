@@ -8,6 +8,7 @@ import { useAutoScroll } from './hooks/useAutoScroll';
 
 function App() {
   const [posts, setPosts] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
@@ -84,9 +85,10 @@ function App() {
   const loadInitialPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3001/api/posts');
+      const response = await fetch('/posts.json');
       const data = await response.json();
-      setPosts(data.posts);
+      setAllPosts(data.posts || []);
+      setPosts((data.posts || []).slice(0, 20));
       setLoading(false);
     } catch (err) {
       setError('Failed to load posts');
@@ -96,14 +98,14 @@ function App() {
 
   // Infinite scroll
   const loadMorePosts = async () => {
-    if (loading || isPaused) return;
+    if (loading || isPaused || posts.length >= allPosts.length) return;
     
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3001/api/posts?page=${Math.floor(posts.length / 20) + 1}`);
-      const data = await response.json();
-      setPosts(prev => [...prev, ...data.posts]);
-      setLoading(false);
+      setTimeout(() => {
+        setPosts(allPosts.slice(0, posts.length + 20));
+        setLoading(false);
+      }, 300);
     } catch (err) {
       setError('Failed to load more posts');
       setLoading(false);
@@ -115,9 +117,11 @@ function App() {
     if (isPaused) return;
     
     try {
-      const response = await fetch('http://localhost:3001/api/posts');
+      const response = await fetch('/posts.json');
       const data = await response.json();
-      setPosts(data.posts);
+      setAllPosts(data.posts || []);
+      const currentCount = Math.max(posts.length, 20);
+      setPosts((data.posts || []).slice(0, currentCount));
     } catch (err) {
       console.error('Failed to refresh posts:', err);
     }
