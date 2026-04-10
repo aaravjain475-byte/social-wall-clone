@@ -85,10 +85,10 @@ function App() {
   const loadInitialPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/posts.json');
+      const response = await fetch('/api/posts');
       const data = await response.json();
-      setAllPosts(data.posts || []);
-      setPosts((data.posts || []).slice(0, 20));
+      setAllPosts(data || []);
+      setPosts((data || []).slice(0, 20));
       setLoading(false);
     } catch (err) {
       setError('Failed to load posts');

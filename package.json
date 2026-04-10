@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generateData.js",
-    "build": "npm run prebuild && vite build",
+    "build": "vite build",
     "preview": "vite preview",
-    "server": "node server.js"
+    "server": "node server.js",
+    "start": "node railway-server.js",
+    "railway:build": "npm run build",
+    "railway:start": "node railway-server.js"
   },
   "dependencies": {
     "react": "^18.2.0",
